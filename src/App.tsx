@@ -7,6 +7,7 @@ import { useState } from "react";
 
 function App() {
   const [opened, setOpened] = useState(true)
+  setOpened(opened)
   const router = createBrowserRouter([
     {
       path: "/",

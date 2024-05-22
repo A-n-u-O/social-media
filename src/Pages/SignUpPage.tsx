@@ -37,8 +37,8 @@ const SignUpPage = () => {
   });
 
   return (
-    <Box  w='100%' h='100dvw' ta='center'  mx="auto"  bg="#99FFFF">
-        <Text  size="3rem" p='xs'>Sign Up for <Text c="#004080">
+    <Box  w='100%' h='100%' ta='center'  mx="auto"  bg="#99FFFF" lts='2px'>
+        <Text  size="3rem" p='xs' lts='3px'>Sign Up for <Text c="#004080">
               The Friendship Zone
             </Text></Text>
             <Divider p='md'/>

@@ -37,11 +37,11 @@ const SignUpPage = () => {
   });
 
   return (
-    <Box w="100%" h="100%" ta="center" mx="auto" bg="#99FFFF" lts="2px">
-      <Text size="3rem" p="25" lts="3px">
-        Sign Up for{" "}
-        <Text c="#004080" p="md">
-          The Friendship Zone
+    <Box w="100%" h="100%" ta="center" mx="auto" bg="#99FFFF" lts="1px">
+      <Text size="2.8rem" p="20" lts="3px">
+        The Friendship Zone{" "}
+        <Text c="#004080" p="md" fw='bold'>
+          Sign Up
         </Text>
       </Text>
       <Divider p="md" />
@@ -166,7 +166,7 @@ const SignUpPage = () => {
           </Grid.Col>
         </Grid>
       </form>
-      <Text c="blue">
+      <Text c="blue" m="12px">
         Already have an account?{" "}
         <Link
           to="/LogInPage"

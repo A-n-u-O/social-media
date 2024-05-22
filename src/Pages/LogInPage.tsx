@@ -33,8 +33,8 @@ const LogInPage = () => {
   });
 
   return (
-    <Box w="100%" h="100vh" mx="auto" ta="center" bg="#99FFFF">
-      <Text size="3rem" p="20px">
+    <Box w="100%" h="100vh" mx="auto" ta="center" bg="#99FFFF" lts='1px'>
+      <Text size="3rem" p="20px" lts='3px'>
         Login to your account
       </Text>
       <Divider p="md" />
@@ -89,7 +89,7 @@ const LogInPage = () => {
           </Grid.Col>
         </Grid>
       </form>
-      <Text c="blue">
+      <Text c="blue" m="12px">
         Don't have an account?{" "}
         <Link
           to="/SignUpPage"

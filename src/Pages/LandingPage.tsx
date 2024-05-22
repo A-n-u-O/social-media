@@ -4,7 +4,7 @@ import LandingPageBackground from "../assets/landingPage.avif";
 
 const LandingPage = ({ opened }: { opened: boolean }) => {
   return (
-    <Flex h="auto" w="100%" bg="#99FFFF" justify="center" align="center">
+    <Flex h="auto" w="100%" bg="#DFCBDA" justify="center" align="center" color="#000000">
       <Image
         radius="md"
         h="750px"
@@ -19,7 +19,7 @@ const LandingPage = ({ opened }: { opened: boolean }) => {
           duration={400}
           timingFunction="ease">
           {(styles) => (
-            <Text c="#004080" size="2rem" style={styles}>
+            <Text c="#004080" size="2.5rem" style={styles}>
               The Friendship Zone
             </Text>
           )}

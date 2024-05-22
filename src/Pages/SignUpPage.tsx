@@ -37,12 +37,17 @@ const SignUpPage = () => {
   });
 
   return (
-    <Box  w='100%' h='100%' ta='center'  mx="auto"  bg="#99FFFF" lts='2px'>
-        <Text  size="3rem" p='xs' lts='3px'>Sign Up for <Text c="#004080">
-              The Friendship Zone
-            </Text></Text>
-            <Divider p='md'/>
-      <form onSubmit={form.onSubmit((values) => console.log(values))} style={{maxWidth: '600px', margin: 'auto'}}>
+    <Box w="100%" h="100%" ta="center" mx="auto" bg="#99FFFF" lts="2px">
+      <Text size="3rem" p="25" lts="3px">
+        Sign Up for{" "}
+        <Text c="#004080" p="md">
+          The Friendship Zone
+        </Text>
+      </Text>
+      <Divider p="md" />
+      <form
+        onSubmit={form.onSubmit((values) => console.log(values))}
+        style={{ maxWidth: "600px", margin: "auto" }}>
         <Grid grow>
           <Grid.Col span={12}>
             <TextInput
@@ -149,13 +154,31 @@ const SignUpPage = () => {
 
           <Grid.Col span={6}>
             <Group justify="flex-end" mt="md">
-              <Button color="#004080"
-              size="md" radius='sm' w='200px' type="submit">Sign Up</Button>
+              <Button
+                color="#004080"
+                size="md"
+                radius="sm"
+                w="200px"
+                type="submit">
+                Sign Up
+              </Button>
             </Group>
           </Grid.Col>
         </Grid>
       </form>
-      <Text c="blue">Already have an account? <Link to='/LogInPage' style={{textDecoration: 'underline'}}>Log In</Link></Text>
+      <Text c="blue">
+        Already have an account?{" "}
+        <Link
+          to="/LogInPage"
+          style={{
+            textDecoration: "underline",
+            color: "black",
+            fontWeight: "bold",
+            padding: "5px",
+          }}>
+          Log In
+        </Link>
+      </Text>
     </Box>
   );
 };

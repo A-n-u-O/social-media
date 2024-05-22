@@ -4,7 +4,7 @@ import LandingPageBackground from "../assets/landingPage.avif";
 
 const LandingPage = ({ opened }: { opened: boolean }) => {
   return (
-    <Flex h="auto" w="100%" bg="#DFCBDA" justify="center" align="center" color="#000000">
+    <Flex h="auto" w="100%" bg="#F9E2E2" justify="center" align="center" color="#000000">
       <Image
         radius="md"
         h="750px"

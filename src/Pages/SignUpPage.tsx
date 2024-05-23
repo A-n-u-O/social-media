@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   Divider,
+  FileButton,
   FileInput,
   Grid,
   Group,
@@ -14,8 +15,9 @@ import {
 } from "@mantine/core";
 import { isEmail, useForm } from "@mantine/form";
 import at from "../assets/iconAt.svg";
-import image from "../assets/iconImage.svg";
+import imageIcon from "../assets/iconImage.svg";
 import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 
 const SignUpPage = () => {
   const form = useForm({
@@ -36,11 +38,23 @@ const SignUpPage = () => {
     },
   });
 
+  const [profilePicture, setProfilePicture] = useState<File | null>();
+  const [profilePictureUrl, setProfilePictureUrl] = useState<null | string>();
+  useEffect(() => {
+    if (profilePicture) {
+      setProfilePictureUrl(URL.createObjectURL(profilePicture));
+    }
+  }, [profilePicture]);
+  const resetRef = useRef<() => void>(null);
+  const clearFile = () => {
+    setProfilePicture(null);
+    resetRef.current?.();
+  };
   return (
     <Box w="100%" h="100%" ta="center" mx="auto" bg="#F9E2E2" lts="1px">
       <Text size="2.8rem" p="20" lts="3px">
         The Friendship Zone{" "}
-        <Text c="#004080" p="md" fw="bold">
+        <Text c="#004080" p="md" fw="bold" component="span">
           Sign Up
         </Text>
       </Text>
@@ -127,20 +141,38 @@ const SignUpPage = () => {
             />
           </Grid.Col>
           <Grid.Col span={6}>
-            <FileInput
-              accept="image/png,image/jpeg"
-              clearable
-              label="Profile picture"
-              placeholder="Upload Profile Picture"
-              rightSection={
-                <img
-                  src={image}
-                  alt="upload image"
-                  style={{ width: rem(16), height: rem(16) }}
-                />
-              }
-              mt="md"
-            />
+            <FileButton
+              onChange={(e) => setProfilePicture(e)}
+              accept="image/png,image/jpeg">
+              {(props) => (
+                <Button
+                  {...props}
+                  variant="gradient"
+                  gradient={{ from: "blue", to: "violet", deg: 90 }}
+                  leftSection={
+                    <img
+                      src={imageIcon}
+                      alt="upload image"
+                      style={{ width: rem(16), height: rem(16) }}
+                    />
+                  }>
+                  Upload image
+                </Button>
+              )}
+            </FileButton>
+            <Button
+              component="span"
+              disabled={!profilePicture}
+              color="blue"
+              onClick={clearFile}>
+              Reset
+            </Button>
+            {profilePictureUrl && profilePicture && (
+              <Box mt={2} ta="center">
+                <div>ProfilePicture Preview:</div>
+                <img src={profilePictureUrl} height="100px" />
+              </Box>
+            )}
           </Grid.Col>
           <Grid.Col span={6}>
             <Checkbox

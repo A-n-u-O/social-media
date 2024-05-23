@@ -3,12 +3,20 @@ import LandingPage from "./Pages/LandingPage";
 import ErrorPage from "./Pages/ErrorPage";
 import SignUpPage from "./Pages/SignUpPage";
 import LogInPage from "./Pages/LogInPage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dashboard from "./Pages/Dashboard";
 
 function App() {
-  const [opened, setOpened] = useState(true);
-  setOpened;
+  const [opened, setOpened] = useState(false);
+  useEffect(() => {
+    setOpened(true);
+
+    return () => {
+      setOpened(false);
+    };
+  }, []);
+  console.log(opened);
+
   const router = createBrowserRouter([
     {
       path: "/",

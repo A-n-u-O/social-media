@@ -33,8 +33,8 @@ const LogInPage = () => {
   });
 
   return (
-    <Box w="100%" h="100vh" mx="auto" ta="center" bg="#F9E2E2" lts='1px'>
-      <Text size="3rem" p="20px" lts='3px'>
+    <Box w="100%" h="100vh" mx="auto" ta="center" bg="#F9E2E2" lts="1px">
+      <Text size="3rem" p="20px" lts="3px">
         Login to your account
       </Text>
       <Divider p="md" />
@@ -82,7 +82,9 @@ const LogInPage = () => {
                 size="md"
                 radius="sm"
                 w="200px"
-                type="submit">
+                type="submit"
+                component={Link}
+                to="/Dashboard">
                 Log In
               </Button>
             </Group>

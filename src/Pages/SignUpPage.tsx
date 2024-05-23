@@ -40,7 +40,7 @@ const SignUpPage = () => {
     <Box w="100%" h="100%" ta="center" mx="auto" bg="#F9E2E2" lts="1px">
       <Text size="2.8rem" p="20" lts="3px">
         The Friendship Zone{" "}
-        <Text c="#004080" p="md" fw='bold'>
+        <Text c="#004080" p="md" fw="bold">
           Sign Up
         </Text>
       </Text>
@@ -159,7 +159,9 @@ const SignUpPage = () => {
                 size="md"
                 radius="sm"
                 w="200px"
-                type="submit">
+                type="submit"
+                component={Link}
+                to="/Dashboard">
                 Sign Up
               </Button>
             </Group>

@@ -8,7 +8,6 @@ import {
   Grid,
   Group,
   Menu,
-  MenuDropdown,
   MenuItem,
   MenuLabel,
   Text,
@@ -46,7 +45,7 @@ const Dashboard = () => {
           <Avatar src={image} radius="xl" />
 
           <div style={{ flex: 1 }}>
-            <Text size="sm" fw={500}>
+            <Text size="sm" fw={500} c="#F9E2E2">
               {name}
             </Text>
 
@@ -67,8 +66,8 @@ const Dashboard = () => {
   );
   return (
     <>
-      <Box w="auto" h="100%">
-        <Flex pt="sm" pb="md" direction="row" justify="flex-end" bg="ACC3C3">
+      <Box w="100dvw" h="100dvw" c="#F9E2E2">
+        <Flex pt="sm" pb="md" direction="row" justify="flex-end" bg="dark" >
           {/* profile */}
           <Menu withArrow>
             <Menu.Target>
@@ -94,7 +93,7 @@ const Dashboard = () => {
           </Menu>
         </Flex>
         <Divider />
-        <Grid h="90%">
+        <Grid h="90%" bg="dark" >
           <Grid.Col span="auto">
             <Box m={"15px"}>
               <Text onClick={() => navigate("Home")}>Home</Text>
@@ -108,7 +107,7 @@ const Dashboard = () => {
           </Grid.Col>
         </Grid>
 
-        <Affix position={{ bottom: 20, right: 20 }}>
+        <Affix position={{ bottom: 50, right: 20 }}>
           <Transition transition="slide-up" mounted={scroll.y > 0}>
             {(transitionStyles) => (
               <Button

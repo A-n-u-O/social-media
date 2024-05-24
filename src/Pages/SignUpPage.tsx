@@ -18,14 +18,14 @@ import imageIcon from "../assets/iconImage.svg";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
-type SignUpPageProps = {
-  name: [firstName: string, lastName: string];
-  email: string;
-  password: string;
-  profilePicture: File;
-};
+// type SignUpPageProps = {
+//   name: [firstName: string, lastName: string];
+//   email: string;
+//   password: string;
+//   profilePicture: File;
+// };
 
-const SignUpPage = ({name, email, password, profilePicture}: SignUpPageProps) => {
+const SignUpPage = () => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {

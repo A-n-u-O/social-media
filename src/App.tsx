@@ -8,6 +8,7 @@ import Dashboard from "./Pages/Dashboard";
 import Feed from "./Components/Feed";
 import Messages from "./Components/Messages";
 import Home from "./Components/Home";
+import ChatBox from "./Components/ChatBox";
 
 function App() {
   const [opened, setOpened] = useState(false);
@@ -49,6 +50,12 @@ function App() {
         {
           path: "Messages",
           element: <Messages />,
+          children: [
+            {
+              path: "ChatBox",
+              element: <ChatBox />,
+            },
+          ],
         },
       ],
     },

@@ -113,7 +113,13 @@ const Dashboard = () => {
                 fz="lg"
                 fullWidth
                 onClick={() => navigate("Home")}
-                rightSection={<img src={homeIcon} alt="home" />}>
+                rightSection={
+                  <img
+                    src={homeIcon}
+                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
+                    alt="home"
+                  />
+                }>
                 Home
               </Button>
               <Button
@@ -122,7 +128,13 @@ const Dashboard = () => {
                 p="5px"
                 fz="lg"
                 fullWidth
-                rightSection={<img src={feedIcon} alt="feed" />}
+                leftSection={
+                  <img
+                    src={feedIcon}
+                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
+                    alt="feed"
+                  />
+                }
                 onClick={() => navigate("Feed")}>
                 Feed
               </Button>
@@ -132,7 +144,13 @@ const Dashboard = () => {
                 p="5px"
                 fz="lg"
                 fullWidth
-                rightSection={<img src= {messageIcon} alt="messages"/>}
+                rightSection={
+                  <img
+                    src={messageIcon}
+                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
+                    alt="messages"
+                  />
+                }
                 onClick={() => navigate("Messages")}>
                 Messages
               </Button>

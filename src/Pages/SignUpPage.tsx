@@ -18,6 +18,13 @@ import imageIcon from "../assets/iconImage.svg";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
+// type SignUpPageProps = {
+//   name: [firstName: string, lastName: string];
+//   email: string;
+//   password: string;
+//   profilePicture: File;
+// };
+
 const SignUpPage = () => {
   const form = useForm({
     mode: "uncontrolled",
@@ -64,6 +71,7 @@ const SignUpPage = () => {
         <Grid grow>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -76,6 +84,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -88,6 +97,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -108,6 +118,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={6}>
             <PasswordInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -120,6 +131,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={6}>
             <PasswordInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -141,6 +153,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={6}>
             <FileButton
+              resetRef={resetRef}
               onChange={(e) => setProfilePicture(e)}
               accept="image/png,image/jpeg">
               {(props) => (
@@ -163,12 +176,13 @@ const SignUpPage = () => {
               component="span"
               disabled={!profilePicture}
               color="blue"
-              onClick={clearFile}>
+              onClick={clearFile}
+              ml="10px">
               Reset
             </Button>
             {profilePictureUrl && profilePicture && (
               <Box mt={2} ta="center">
-                <div>ProfilePicture Preview:</div>
+                <div>Profile Picture Preview:</div>
                 <img src={profilePictureUrl} height="100px" />
               </Box>
             )}

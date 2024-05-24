@@ -5,6 +5,9 @@ import SignUpPage from "./Pages/SignUpPage";
 import LogInPage from "./Pages/LogInPage";
 import { useEffect, useState } from "react";
 import Dashboard from "./Pages/Dashboard";
+import Feed from "./Components/Feed";
+import Messages from "./Components/Messages";
+import Home from "./Components/Home";
 
 function App() {
   const [opened, setOpened] = useState(false);
@@ -34,6 +37,20 @@ function App() {
     {
       path: "Dashboard",
       element: <Dashboard />,
+      children: [
+        {
+          path: "Home",
+          element: <Home />,
+        },
+        {
+          path: "Feed",
+          element: <Feed />,
+        },
+        {
+          path: "Messages",
+          element: <Messages />,
+        },
+      ],
     },
   ]);
 

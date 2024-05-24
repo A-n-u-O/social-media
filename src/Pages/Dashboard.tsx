@@ -18,6 +18,9 @@ import {
 import { Outlet, useNavigate } from "react-router";
 import arrowUpIcon from "../assets/arrowUpIcon.svg";
 import chevronRightIcon from "../assets/chevronRightIcon.svg";
+import homeIcon from "../assets/homeIcon.svg";
+import messageIcon from "../assets/messageIcon.svg";
+import feedIcon from "../assets/feedIcon.svg";
 import { useWindowScroll } from "@mantine/hooks";
 import { forwardRef } from "react";
 const Dashboard = () => {
@@ -67,7 +70,8 @@ const Dashboard = () => {
   return (
     <>
       <Box w="100dvw" h="100dvw" c="#F9E2E2">
-        <Flex pt="sm" pb="md" direction="row" justify="flex-end" bg="dark" >
+        <Flex p="md" direction="row" justify="space-between" bg="dark">
+          <Box fz="xl">The FriendShip Zone</Box>
           {/* profile */}
           <Menu withArrow>
             <Menu.Target>
@@ -79,27 +83,60 @@ const Dashboard = () => {
             </Menu.Target>
             <Menu.Dropdown>
               <MenuItem
-                leftSection={ 
-                  <Avatar src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png" radius="xl" size="sm"/>
+                leftSection={
+                  <Avatar
+                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+                    radius="xl"
+                    size="sm"
+                  />
                 }>
                 <MenuLabel>View profile</MenuLabel>
               </MenuItem>
-              <MenuItem leftSection={
-                <img src={chevronRightIcon}/>
-              }>
+              <MenuItem leftSection={<img src={chevronRightIcon} />}>
                 <MenuLabel>Logout</MenuLabel>
               </MenuItem>
             </Menu.Dropdown>
           </Menu>
         </Flex>
         <Divider />
-        <Grid h="90%" bg="dark" >
+        <Grid h="100Vw" bg="dark">
           <Grid.Col span="auto">
-            <Box m={"15px"}>
-              <Text onClick={() => navigate("Home")}>Home</Text>
-              <Text onClick={() => navigate("Feed")}>Feed</Text>
-              <Text onClick={() => navigate("Messages")}>Messages</Text>
-            </Box>
+            <Flex
+              m={"15px"}
+              direction="column"
+              justify="space-between"
+              gap="20px">
+              <Button
+                c="#273535"
+                bg="#F9E1E1"
+                p="5px"
+                fz="lg"
+                fullWidth
+                onClick={() => navigate("Home")}
+                rightSection={<img src={homeIcon} alt="home" />}>
+                Home
+              </Button>
+              <Button
+                c="#273535"
+                bg="#F9E1E1"
+                p="5px"
+                fz="lg"
+                fullWidth
+                rightSection={<img src={feedIcon} alt="feed" />}
+                onClick={() => navigate("Feed")}>
+                Feed
+              </Button>
+              <Button
+                c="#273535"
+                bg="#F9E1E1"
+                p="5px"
+                fz="lg"
+                fullWidth
+                rightSection={<img src= {messageIcon} alt="messages"/>}
+                onClick={() => navigate("Messages")}>
+                Messages
+              </Button>
+            </Flex>
           </Grid.Col>
           <Divider orientation="vertical" size="lg" />
           <Grid.Col span={10}>

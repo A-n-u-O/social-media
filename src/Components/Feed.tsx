@@ -1,4 +1,4 @@
-import { Box } from "@mantine/core";
+import { Box, Button } from "@mantine/core";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { RichTextEditor } from "@mantine/tiptap";
@@ -18,6 +18,7 @@ const Feed = () => {
         {" "}
         <RichTextEditor editor={editor}>
           <RichTextEditor.Content />
+          <Button>Post</Button>
         </RichTextEditor>
       </Box>
       <Box>post</Box>

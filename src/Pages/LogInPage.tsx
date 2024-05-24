@@ -44,7 +44,8 @@ const LogInPage = () => {
         <Grid grow>
           <Grid.Col span={12}>
             <TextInput
-              mt="sm"
+            variant="filled"
+            mt="sm"
               size="xl"
               radius="lg"
               label="Email"
@@ -64,7 +65,8 @@ const LogInPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <PasswordInput
-              mt="sm"
+            variant="filled"
+            mt="sm"
               size="xl"
               radius="lg"
               label="Password"

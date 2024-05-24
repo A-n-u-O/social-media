@@ -18,7 +18,14 @@ import imageIcon from "../assets/iconImage.svg";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
-const SignUpPage = () => {
+type SignUpPageProps = {
+  name: [firstName: string, lastName: string];
+  email: string;
+  password: string;
+  profilePicture: File;
+};
+
+const SignUpPage = ({name, email, password, profilePicture}: SignUpPageProps) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -64,6 +71,7 @@ const SignUpPage = () => {
         <Grid grow>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -76,6 +84,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -88,6 +97,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <TextInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -108,6 +118,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={6}>
             <PasswordInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"
@@ -120,6 +131,7 @@ const SignUpPage = () => {
           </Grid.Col>
           <Grid.Col span={6}>
             <PasswordInput
+              variant="filled"
               mt="sm"
               size="lg"
               radius="sm"

@@ -5,8 +5,8 @@ import {
   Divider,
   Flex,
   Grid,
+  Image,
   Input,
-  rem,
 } from "@mantine/core";
 import searchIcon from "../assets/searchIcon.svg";
 import { useState } from "react";
@@ -31,11 +31,7 @@ const Messages = () => {
           rightSection={<CloseButton />}
           leftSectionPointerEvents="none"
           leftSection={
-            <img
-              src={searchIcon}
-              alt="search"
-              style={{ width: rem(16), height: rem(16) }}
-            />
+            <Image src={searchIcon} alt="search" w="1rem" h="1rem" />
           }
         />
         <Box h="80%" mt="20px" p="10px">

@@ -6,11 +6,11 @@ import {
   FileButton,
   Grid,
   Group,
+  Image,
   PasswordInput,
   Text,
   TextInput,
   Textarea,
-  rem,
 } from "@mantine/core";
 import { isEmail, useForm } from "@mantine/form";
 import at from "../assets/iconAt.svg";
@@ -105,13 +105,7 @@ const SignUpPage = () => {
               placeholder="Email"
               required
               rightSectionPointerEvents="none"
-              rightSection={
-                <img
-                  src={at}
-                  alt="@"
-                  style={{ width: rem(16), height: rem(16) }}
-                />
-              }
+              rightSection={<Image w="16rem" h="16rem" src={at} />}
               key={form.key("email")}
               {...form.getInputProps("email")}
             />
@@ -162,10 +156,11 @@ const SignUpPage = () => {
                   variant="gradient"
                   gradient={{ from: "blue", to: "violet", deg: 90 }}
                   leftSection={
-                    <img
+                    <Image
                       src={imageIcon}
                       alt="upload image"
-                      style={{ width: rem(16), height: rem(16) }}
+                      w="16rem"
+                      h="16rem"
                     />
                   }>
                   Upload image
@@ -182,8 +177,8 @@ const SignUpPage = () => {
             </Button>
             {profilePictureUrl && profilePicture && (
               <Box mt={2} ta="center">
-                <div>Profile Picture Preview:</div>
-                <img src={profilePictureUrl} height="100px" />
+                <Box>Profile Picture Preview:</Box>
+                <Image src={profilePictureUrl} h="100px" />
               </Box>
             )}
           </Grid.Col>

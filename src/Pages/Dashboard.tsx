@@ -7,13 +7,13 @@ import {
   Flex,
   Grid,
   Group,
+  Image,
   Menu,
   MenuItem,
   MenuLabel,
   Text,
   Transition,
   UnstyledButton,
-  rem,
 } from "@mantine/core";
 import { Outlet, useNavigate } from "react-router";
 import arrowUpIcon from "../assets/arrowUpIcon.svg";
@@ -58,7 +58,7 @@ const Dashboard = () => {
           </div>
 
           {icon || (
-            <img
+            <Image
               src={chevronRightIcon}
               style={{ height: "1rem", width: "1rem" }}
             />
@@ -166,12 +166,7 @@ const Dashboard = () => {
           <Transition transition="slide-up" mounted={scroll.y > 0}>
             {(transitionStyles) => (
               <Button
-                leftSection={
-                  <img
-                    src={arrowUpIcon}
-                    style={{ width: rem(16), height: rem(16) }}
-                  />
-                }
+                leftSection={<Image src={arrowUpIcon} w="16rem" h="16rem" />}
                 style={transitionStyles}
                 onClick={() => scrollTo({ y: 0 })}>
                 Scroll to top

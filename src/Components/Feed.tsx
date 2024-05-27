@@ -1,10 +1,12 @@
-import { Box, Button, FileButton, Group, Modal } from "@mantine/core";
+import { Box, Button, FileButton, Group, Image, Modal } from "@mantine/core";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
 import { RichTextEditor } from "@mantine/tiptap";
 import { useEditor } from "@tiptap/react";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
+import galleryUploadIcon from "../assets/galleryUpload.svg";
+import galleryRemoveIcon from "../assets/galleryRemove.svg";
 
 const Feed = () => {
   const editor = useEditor({
@@ -47,20 +49,28 @@ const Feed = () => {
               resetRef={resetRef}
               onChange={setFile}
               accept="image/png,image/jpeg">
-              {(props) => <Button {...props}>Upload image</Button>}
+              {(props) => (
+                <Button {...props} m="md">
+                  Upload
+                  <Image h="1.5rem" w="1.5rem" m="xs" src={galleryUploadIcon} />
+                </Button>
+              )}
             </FileButton>
-            <Button disabled={!file} color="red" onClick={clearFile}>
-              Remove
-            </Button>
           </Group>
 
           {fileURL && file && (
             <Box mt={2} ta="center">
-              <div>Profile Picture Preview:</div>
-              <img src={fileURL} height="100px" />
+              <Box>Post Preview:</Box>
+              <Image src={fileURL} h="200px" w="200px" />
             </Box>
           )}
+          <Button disabled={!file} color="red" onClick={clearFile} m="md">
+            Remove
+            <Image h="1.5rem" w="1.5rem" m="xs" src={galleryRemoveIcon} />
+          </Button>
+          <Button>Ok</Button>
         </Modal>
+
         <Button onClick={open}>Upload Post</Button>
       </Box>
       <Box>replies</Box>

@@ -6,7 +6,7 @@ import {
   Flex,
   Image,
   Modal,
-  TextInput,
+  Paper,
   Textarea,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
@@ -36,32 +36,58 @@ const Feed = () => {
     setFileURL(null);
     resetRef.current?.();
   };
+
   const [opened, { open, close }] = useDisclosure(false);
-  //text post
   const [postDescription, setPostDescription] = useState<string>("");
-  const DisplayPostDescription = () => {
-    return (
-      <Card>
-        <Card.Section>{postDescription}</Card.Section>
-        <Flex>
+
+  const handlePostDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPostDescription(e.target.value);
+  };
+
+  const addPost = () => {
+    if (fileURL) {
+      setPosts([...posts, { image: fileURL, description: postDescription }]);
+      setLikedPosts([...likedPosts, false]);
+      setFile(null);
+      setFileURL(null);
+      setPostDescription("");
+      close();
+      resetRef.current?.();
+    }
+  };
+
+  const toggleLike = (index: number) => {
+    setLikedPosts(likedPosts.map((liked, i) => (i === index ? !liked : liked)));
+  };
+
+  const DisplayPosts = () => {
+    return posts.map((post, index) => (
+      <Card key={index} mb="sm" h="400px" maw="600px" m="auto">
+        {post.image && (
+          <Card.Section h="300">
+            <Image src={post.image} height="250px" alt="Post image" />
+          </Card.Section>
+        )}
+        <Card.Section h="100px">
+          <Box p="md">{post.description}</Box>
+        </Card.Section>
+        <Flex justify="space-between" align="center" p="md" h="50px">
           <Image
             h="1.5rem"
             w="1.5rem"
-            src={emptyHeartIcon ? filledHeartIcon : emptyHeartIcon}
+            src={likedPosts[index] ? filledHeartIcon : emptyHeartIcon}
+            onClick={() => toggleLike(index)}
+            alt="like icon"
+            style={{ cursor: "pointer" }}
           />
         </Flex>
       </Card>
-    );
-  };
-  const handlePostDescription = (e: any) => {
-    setPostDescription(e.target.value);
-    DisplayPostDescription();
+    ));
   };
 
   return (
-    <Box bg="C3E9E9">
-      <Box>
-        {" "}
+    <Box bg="#C3E9E9" p="md">
+      <Box mb="md">
         <Modal opened={opened} onClose={close} title="Post Upload">
           <FileButton
             resetRef={resetRef}
@@ -76,9 +102,9 @@ const Feed = () => {
           </FileButton>
 
           {fileURL && file && (
-            <Box mt={2} ta="center" >
+            <Box mt={2} ta="center">
               <Box>Post Preview:</Box>
-              <Image src={fileURL} h="200px" w="200px" m="auto"/>
+              <Image src={fileURL} h="200px" w="200px" m="auto" />
             </Box>
           )}
           <Button disabled={!file} color="red" onClick={clearFile} m="md">
@@ -87,17 +113,22 @@ const Feed = () => {
           </Button>
           <Textarea
             size="md"
-            description="Post description"
+            label="Post description"
             placeholder="What's on your mind?"
             value={postDescription}
-            onClick={handlePostDescription}
+            onChange={handlePostDescription}
           />
+          <Button onClick={addPost} m="md" disabled={!postDescription && !file}>
+            Post
+          </Button>
         </Modal>
         <Button onClick={open}>Post Something</Button>
       </Box>
-      <Box>post</Box>
-      <Box>replies</Box>
+      <Box>
+        <DisplayPosts />
+      </Box>
     </Box>
   );
 };
+
 export default Feed;

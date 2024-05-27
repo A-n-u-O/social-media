@@ -166,7 +166,7 @@ const Dashboard = () => {
           <Transition transition="slide-up" mounted={scroll.y > 0}>
             {(transitionStyles) => (
               <Button
-                leftSection={<Image src={arrowUpIcon} w="16rem" h="16rem" />}
+                leftSection={<Image src={arrowUpIcon} w="1rem" h="1rem" />}
                 style={transitionStyles}
                 onClick={() => scrollTo({ y: 0 })}>
                 Scroll to top

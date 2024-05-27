@@ -13,10 +13,12 @@ import emptyHeartIcon from "../assets/emptyHeart.svg";
 import filledHeartIcon from "../assets/filledHeart.svg";
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
+import commentIcon from "../assets/Comment.svg";
 import { useDisclosure } from "@mantine/hooks";
 
 const Feed = () => {
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
+  const [comments, setComments] = useState<Array<{ comment: string }>>([]);
   const [file, setFile] = useState<File | null>(null);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [posts, setPosts] = useState<
@@ -59,6 +61,10 @@ const Feed = () => {
     setLikedPosts(likedPosts.map((liked, i) => (i === index ? !liked : liked)));
   };
 
+  const handleComment = () => {
+    return <Textarea size="md" label="Add Comment" placeholder="Add Comment" />;
+  };
+
   const DisplayPosts = () => {
     return posts.map((post, index) => (
       <Card key={index} mb="sm" h="400px" maw="600px" m="auto">
@@ -77,6 +83,14 @@ const Feed = () => {
             src={likedPosts[index] ? filledHeartIcon : emptyHeartIcon}
             onClick={() => toggleLike(index)}
             alt="like icon"
+            style={{ cursor: "pointer" }}
+          />
+          <Image
+            h="1.5rem"
+            w="1.5rem"
+            src={commentIcon}
+            onClick={() => handleComment}
+            alt="comment icon"
             style={{ cursor: "pointer" }}
           />
         </Flex>

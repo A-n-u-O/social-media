@@ -206,7 +206,7 @@ const SignUpPage = () => {
                 w="200px"
                 type="submit"
                 component={Link}
-                to="/Dashboard">
+                to="/dashboard">
                 Sign Up
               </Button>
             </Group>
@@ -216,7 +216,7 @@ const SignUpPage = () => {
       <Text c="blue" m="12px">
         Already have an account?{" "}
         <Link
-          to="/LogInPage"
+          to="/logInPage"
           style={{
             textDecoration: "underline",
             color: "black",

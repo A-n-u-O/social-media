@@ -93,7 +93,7 @@ const Dashboard = () => {
                 <MenuLabel>View profile</MenuLabel>
               </MenuItem>
               <MenuItem leftSection={<img src={chevronRightIcon} />}>
-                <MenuLabel>Logout</MenuLabel>
+                <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
               </MenuItem>
             </Menu.Dropdown>
           </Menu>
@@ -151,7 +151,7 @@ const Dashboard = () => {
                     alt="messages"
                   />
                 }
-                onClick={() => navigate("Messages")}>
+                onClick={() => navigate("messages")}>
                 Messages
               </Button>
             </Flex>

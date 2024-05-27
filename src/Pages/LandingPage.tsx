@@ -4,7 +4,13 @@ import LandingPageBackground from "../assets/landingPage.avif";
 
 const LandingPage = ({ opened }: { opened: boolean }) => {
   return (
-    <Flex h="auto" w="100%" bg="#F9E2E2" justify="center" align="center" color="#000000">
+    <Flex
+      h="auto"
+      w="100%"
+      bg="#F9E2E2"
+      justify="center"
+      align="center"
+      color="#000000">
       <Image
         radius="md"
         h="750px"
@@ -38,14 +44,13 @@ const LandingPage = ({ opened }: { opened: boolean }) => {
               m="5px"
               w="400px"
               component={Link}
-              to="/SignUpPage"
+              to="/signUpPage"
               style={{
                 ...styles,
                 textDecoration: "none",
                 fontStyle: "italic",
                 color: "white",
-              }}
-            >
+              }}>
               Sign Up
             </Button>
           )}
@@ -64,14 +69,13 @@ const LandingPage = ({ opened }: { opened: boolean }) => {
               m="5px"
               w="400px"
               component={Link}
-              to="/LogInPage"
+              to="/logInPage"
               style={{
                 ...styles,
                 textDecoration: "none",
                 fontStyle: "italic",
                 color: "white",
-              }}
-            >
+              }}>
               Log In
             </Button>
           )}

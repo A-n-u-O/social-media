@@ -8,7 +8,6 @@ import Dashboard from "./Pages/Dashboard";
 import Feed from "./Components/Feed";
 import Messages from "./Components/Messages";
 import Home from "./Components/Home";
-import ChatBox from "./Components/ChatBox";
 
 function App() {
   const [opened, setOpened] = useState(false);
@@ -28,34 +27,28 @@ function App() {
       ErrorBoundary: ErrorPage,
     },
     {
-      path: "SignUpPage",
+      path: "signUpPage",
       element: <SignUpPage />,
     },
     {
-      path: "LogInPage",
+      path: "logInPage",
       element: <LogInPage />,
     },
     {
-      path: "Dashboard",
+      path: "dashboard",
       element: <Dashboard />,
       children: [
         {
-          path: "Home",
+          path: "home",
           element: <Home />,
         },
         {
-          path: "Feed",
+          path: "feed",
           element: <Feed />,
         },
         {
-          path: "Messages",
+          path: "messages",
           element: <Messages />,
-          children: [
-            {
-              path: "ChatBox",
-              element: <ChatBox />,
-            },
-          ],
         },
       ],
     },

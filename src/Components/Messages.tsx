@@ -10,13 +10,13 @@ import {
 } from "@mantine/core";
 import searchIcon from "../assets/searchIcon.svg";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const Messages = () => {
   const [search, setSearch] = useState<
     string | number | readonly string[] | undefined
   >();
-
+  const navigate = useNavigate();
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
   };
@@ -44,7 +44,11 @@ const Messages = () => {
       </Grid.Col>
       <Divider orientation="vertical" size="lg" />
       <Grid.Col span={9}>
-        <Flex justify="center" align="center"><Button size="xl" component={Link} to='ChatBox'>start chatting with friends!</Button></Flex>
+        <Flex justify="center" align="center">
+          <Button size="xl" onClick={() => navigate("chatBox")}>
+            start chatting with friends!
+          </Button>
+        </Flex>
       </Grid.Col>
     </Grid>
   );

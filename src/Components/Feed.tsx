@@ -6,7 +6,6 @@ import {
   Flex,
   Image,
   Modal,
-  Paper,
   Textarea,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";

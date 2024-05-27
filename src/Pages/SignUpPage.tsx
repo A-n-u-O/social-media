@@ -105,7 +105,7 @@ const SignUpPage = () => {
               placeholder="Email"
               required
               rightSectionPointerEvents="none"
-              rightSection={<Image w="16rem" h="16rem" src={at} />}
+              rightSection={<Image w="1rem" h="1rem" src={at} />}
               key={form.key("email")}
               {...form.getInputProps("email")}
             />

@@ -3,10 +3,8 @@ import {
   Avatar,
   Box,
   Button,
-  Container,
   Divider,
   Flex,
-  Grid,
   Group,
   Image,
   Menu,
@@ -22,6 +20,7 @@ import chevronRightIcon from "../assets/chevronRightIcon.svg";
 import homeIcon from "../assets/homeIcon.svg";
 import messageIcon from "../assets/messageIcon.svg";
 import feedIcon from "../assets/feedIcon.svg";
+import logOutIcon from "../assets/logOutIcon.svg";
 import { useWindowScroll } from "@mantine/hooks";
 import { forwardRef } from "react";
 const Dashboard = () => {
@@ -81,7 +80,9 @@ const Dashboard = () => {
           direction="column"
           justify="space-between">
           <Flex direction="row" justify="space-between" w="100%">
-            <Text fz="xl">The FriendShip Zone</Text>
+            <Text fz="40px" p="10px">
+              The FriendShip Zone
+            </Text>
             {/* profile */}
             <Menu withArrow>
               <Menu.Target>
@@ -103,7 +104,12 @@ const Dashboard = () => {
                   <MenuLabel>View profile</MenuLabel>
                 </MenuItem>
                 <MenuItem leftSection={<img src={chevronRightIcon} />}>
-                  <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
+                  <MenuItem
+                    leftSection={
+                      <Image src={logOutIcon} h="1.6rem" w="1.6rem" />
+                    }>
+                    <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
+                  </MenuItem>
                 </MenuItem>
               </Menu.Dropdown>
             </Menu>
@@ -114,60 +120,61 @@ const Dashboard = () => {
           <Grid.Col span={{ xs: 3 }}> */}
         <Flex mt="80px" h="calc(100dvh - 80px)">
           <Flex pos="fixed" left="0" top="80px" w="250px" h="100%">
-            <Flex
-              w="100%"
-              direction="column"
-              justify="space-between"
-              mr={5}
-              py={10}>
-              <Button
+            <Flex w="100%" direction="column" mr={1} py={10} gap={20}>
+              <Box
                 c="#273535"
                 bg="#F9E1E1"
-                p="5px"
-                fz="lg"
-                fullWidth
-                onClick={() => navigate("Home")}
-                leftSection={
-                  <img
-                    src={homeIcon}
-                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
-                    alt="home"
-                  />
-                }>
+                p="10px"
+                fz="xl"
+                onClick={() => navigate("home")}>
+                <img
+                  src={homeIcon}
+                  style={{
+                    color: "black",
+                    height: "1.2rem",
+                    width: "1rem",
+                    marginRight: "10px",
+                  }}
+                  alt="home"
+                />
                 Home
-              </Button>
-              <Button
+              </Box>
+              <Box
                 c="#273535"
                 bg="#F9E1E1"
-                p="5px"
-                fz="lg"
-                fullWidth
-                leftSection={
-                  <img
-                    src={feedIcon}
-                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
-                    alt="feed"
-                  />
-                }
-                onClick={() => navigate("Feed")}>
+                p="10px"
+                fz="xl"
+                onClick={() => navigate("feed")}>
+                <img
+                  src={feedIcon}
+                  style={{
+                    color: "black",
+                    height: "1.2rem",
+                    width: "1rem",
+                    marginRight: "10px",
+                  }}
+                  alt="feed"
+                />
                 Feed
-              </Button>
-              <Button
+              </Box>
+              <Box
                 c="#273535"
                 bg="#F9E1E1"
-                p="5px"
-                fz="lg"
-                fullWidth
-                leftSection={
-                  <img
-                    src={messageIcon}
-                    style={{ color: "black", height: "1.2rem", width: "1rem" }}
-                    alt="messages"
-                  />
-                }
+                p="10px"
+                fz="xl"
                 onClick={() => navigate("messages")}>
+                <img
+                  src={messageIcon}
+                  style={{
+                    color: "black",
+                    height: "1.2rem",
+                    width: "1rem",
+                    marginRight: "10px",
+                  }}
+                  alt="messages"
+                />
                 Messages
-              </Button>
+              </Box>
             </Flex>
 
             <Divider orientation="vertical" size="sm" h="100%" />

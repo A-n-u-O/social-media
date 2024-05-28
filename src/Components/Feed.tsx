@@ -16,15 +16,15 @@ import galleryRemoveIcon from "../assets/galleryRemove.svg";
 import commentIcon from "../assets/Comment.svg";
 import { useDisclosure } from "@mantine/hooks";
 
-type CommentProps = {
-  comment: string;
-  date: string
-}
-const date = new Date()
-date.getDate()
-date.getHours()
-date.getMinutes()
-date.getFullYear()
+// type CommentProps = {
+//   comment: string;
+//   date: string;
+// };
+const date = new Date();
+date.getDate();
+date.getHours();
+date.getMinutes();
+date.getFullYear();
 const Feed = () => {
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
   // const [comments, setComments] = useState<CommentProps[]>([]);
@@ -71,14 +71,17 @@ const Feed = () => {
   };
 
   const handleComment = () => {
-    return <Textarea size="md" label="Add Comment" placeholder="Add Comment" />;
+    return <Textarea size="md" label="Add Comment" placeholder="Add Comment" autosize/>;
   };
 
   const DisplayPosts = () => {
     return posts.map((post, index) => (
       <Card key={index} mb="sm" h="400px" maw="600px" m="auto">
+        <Card.Section h="30px">
+
+        </Card.Section>
         {post.image && (
-          <Card.Section h="300">
+          <Card.Section h="300px">
             <Image src={post.image} height="250px" alt="Post image" />
           </Card.Section>
         )}
@@ -134,6 +137,7 @@ const Feed = () => {
             <Image h="1.5rem" w="1.5rem" m="xs" src={galleryRemoveIcon} />
           </Button>
           <Textarea
+            autosize
             size="md"
             label="Post description"
             placeholder="What's on your mind?"

@@ -3,6 +3,7 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
   Divider,
   Flex,
   Grid,
@@ -69,43 +70,56 @@ const Dashboard = () => {
   );
   return (
     <>
-      <Box w="100dvw" h="100dvw" c="#F9E2E2">
-        <Flex p="md" direction="row" justify="space-between" bg="dark">
-          <Box fz="xl">The FriendShip Zone</Box>
-          {/* profile */}
-          <Menu withArrow>
-            <Menu.Target>
-              <UserButton
-                image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-                name="Harriette Spoonlicker"
-                email="hspoonlicker@outlook.com"
-              />
-            </Menu.Target>
-            <Menu.Dropdown>
-              <MenuItem
-                leftSection={
-                  <Avatar
-                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-                    radius="xl"
-                    size="sm"
-                  />
-                }>
-                <MenuLabel>View profile</MenuLabel>
-              </MenuItem>
-              <MenuItem leftSection={<img src={chevronRightIcon} />}>
-                <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
-              </MenuItem>
-            </Menu.Dropdown>
-          </Menu>
+      <Box h="100vh" c="#F9E2E2" w="100%" bg="dark">
+        <Flex
+          pos="fixed"
+          top="0"
+          w="100%"
+          h="80px"
+          bg="dark"
+          style={{ zIndex: 200 }}
+          direction="column"
+          justify="space-between">
+          <Flex direction="row" justify="space-between" w="100%">
+            <Text fz="xl">The FriendShip Zone</Text>
+            {/* profile */}
+            <Menu withArrow>
+              <Menu.Target>
+                <UserButton
+                  image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+                  name="Harriette Spoonlicker"
+                  email="hspoonlicker@outlook.com"
+                />
+              </Menu.Target>
+              <Menu.Dropdown>
+                <MenuItem
+                  leftSection={
+                    <Avatar
+                      src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+                      radius="xl"
+                      size="sm"
+                    />
+                  }>
+                  <MenuLabel>View profile</MenuLabel>
+                </MenuItem>
+                <MenuItem leftSection={<img src={chevronRightIcon} />}>
+                  <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
+                </MenuItem>
+              </Menu.Dropdown>
+            </Menu>
+          </Flex>
+          <Divider w="100%" size="sm" />
         </Flex>
-        <Divider />
-        <Grid h="100Vw" bg="dark">
-          <Grid.Col span="auto">
+        {/* <Grid w="100%" gutter={0} bg="dark">
+          <Grid.Col span={{ xs: 3 }}> */}
+        <Flex mt="80px" h="calc(100dvh - 80px)">
+          <Flex pos="fixed" left="0" top="80px" w="250px" h="100%">
             <Flex
-              m={"15px"}
+              w="100%"
               direction="column"
               justify="space-between"
-              gap="20px">
+              mr={5}
+              py={10}>
               <Button
                 c="#273535"
                 bg="#F9E1E1"
@@ -113,7 +127,7 @@ const Dashboard = () => {
                 fz="lg"
                 fullWidth
                 onClick={() => navigate("Home")}
-                rightSection={
+                leftSection={
                   <img
                     src={homeIcon}
                     style={{ color: "black", height: "1.2rem", width: "1rem" }}
@@ -144,7 +158,7 @@ const Dashboard = () => {
                 p="5px"
                 fz="lg"
                 fullWidth
-                rightSection={
+                leftSection={
                   <img
                     src={messageIcon}
                     style={{ color: "black", height: "1.2rem", width: "1rem" }}
@@ -155,14 +169,20 @@ const Dashboard = () => {
                 Messages
               </Button>
             </Flex>
-          </Grid.Col>
-          <Divider orientation="vertical" size="lg" />
-          <Grid.Col span={10}>
-            <Outlet />
-          </Grid.Col>
-        </Grid>
 
-        <Affix position={{ bottom: 50, right: 20 }}>
+            <Divider orientation="vertical" size="sm" h="100%" />
+          </Flex>
+          <Box ml="250px">
+            <Outlet />
+          </Box>
+        </Flex>
+        {/* </Grid.Col> */}
+
+        {/* <Grid.Col span={10}> */}
+        {/* </Grid.Col>
+        </Grid> */}
+
+        <Affix position={{ bottom: 100, right: 20 }}>
           <Transition transition="slide-up" mounted={scroll.y > 0}>
             {(transitionStyles) => (
               <Button

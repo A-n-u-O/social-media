@@ -159,8 +159,8 @@ const SignUpPage = () => {
                     <Image
                       src={imageIcon}
                       alt="upload image"
-                      w="16rem"
-                      h="16rem"
+                      w="1rem"
+                      h="1rem"
                     />
                   }>
                   Upload image

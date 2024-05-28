@@ -16,9 +16,18 @@ import galleryRemoveIcon from "../assets/galleryRemove.svg";
 import commentIcon from "../assets/Comment.svg";
 import { useDisclosure } from "@mantine/hooks";
 
+type CommentProps = {
+  comment: string;
+  date: string
+}
+const date = new Date()
+date.getDate()
+date.getHours()
+date.getMinutes()
+date.getFullYear()
 const Feed = () => {
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
-  const [comments, setComments] = useState<Array<{ comment: string }>>([]);
+  // const [comments, setComments] = useState<CommentProps[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [posts, setPosts] = useState<
@@ -99,7 +108,7 @@ const Feed = () => {
   };
 
   return (
-    <Box bg="#C3E9E9" p="md">
+    <Box bg="#C3E9E9" p="md" ml={10} mt={10}>
       <Box mb="md">
         <Modal opened={opened} onClose={close} title="Post Upload">
           <FileButton

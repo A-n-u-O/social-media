@@ -44,8 +44,8 @@ const LogInPage = () => {
         <Grid grow>
           <Grid.Col span={12}>
             <TextInput
-            variant="filled"
-            mt="sm"
+              variant="filled"
+              mt="sm"
               size="xl"
               radius="lg"
               label="Email"
@@ -65,8 +65,8 @@ const LogInPage = () => {
           </Grid.Col>
           <Grid.Col span={12}>
             <PasswordInput
-            variant="filled"
-            mt="sm"
+              variant="filled"
+              mt="sm"
               size="xl"
               radius="lg"
               label="Password"
@@ -86,7 +86,7 @@ const LogInPage = () => {
                 w="200px"
                 type="submit"
                 component={Link}
-                to="/Dashboard">
+                to="/dashboard">
                 Log In
               </Button>
             </Group>
@@ -96,7 +96,7 @@ const LogInPage = () => {
       <Text c="blue" m="12px">
         Don't have an account?{" "}
         <Link
-          to="/SignUpPage"
+          to="/signUpPage"
           style={{
             textDecoration: "underline",
             color: "black",

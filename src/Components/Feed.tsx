@@ -93,8 +93,8 @@ const Feed = () => {
             <Group>
               <Avatar radius="xl" />
 
-              <div style={{ flex: 1, color: "dark" }}>
-                <Text size="sm" fw={500} c="#F9E2E2">
+              <div style={{ flex: 1 }}>
+                <Text size="sm" fw={500} c="dark">
                   name
                 </Text>
               </div>
@@ -148,8 +148,8 @@ const Feed = () => {
               <Group>
                 <Avatar radius="xl" size="xs" />
 
-                <div style={{ flex: 1, color: "dark" }}>
-                  <Text size="sm" fw={500} c="#F9E2E2">
+                <div style={{ flex: 1 }}>
+                  <Text size="sm" fw={500} c="dark">
                     Adewole
                   </Text>
                 </div>
@@ -161,8 +161,8 @@ const Feed = () => {
               <Group>
                 <Avatar radius="xl" size="xs" />
 
-                <div style={{ flex: 1, color: "dark" }}>
-                  <Text size="sm" fw={500} c="#F9E2E2">
+                <div style={{ flex: 1 }}>
+                  <Text size="sm" fw={500} c="dark">
                     Bayo
                   </Text>
                 </div>

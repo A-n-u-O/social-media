@@ -45,7 +45,7 @@ const Dashboard = () => {
         }}
         {...others}>
         <Group>
-          <Avatar src={image} radius="xl" />
+          <Avatar radius="xl" />
 
           <div style={{ flex: 1 }}>
             <Text size="sm" fw={500} c="#F9E2E2">
@@ -69,7 +69,7 @@ const Dashboard = () => {
   );
   return (
     <>
-      <Box h="100vh" c="#F9E2E2" w="100%" bg="dark">
+      <Box mih="100%" c="#F9E2E2" w="100%" bg="dark">
         <Flex
           pos="fixed"
           top="0"
@@ -87,9 +87,9 @@ const Dashboard = () => {
             <Menu withArrow>
               <Menu.Target>
                 <UserButton
-                  image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
                   name="Harriette Spoonlicker"
                   email="hspoonlicker@outlook.com"
+                  image={""}
                 />
               </Menu.Target>
               <Menu.Dropdown>
@@ -119,7 +119,7 @@ const Dashboard = () => {
         {/* <Grid w="100%" gutter={0} bg="dark">
           <Grid.Col span={{ xs: 3 }}> */}
         <Flex mt="80px" h="calc(100dvh - 80px)">
-          <Flex pos="fixed" left="0" top="80px" w="250px" h="100%">
+          <Flex pos="fixed" left="0" top="80px" w="250px" h="100%" bg="dark">
             <Flex w="100%" direction="column" mr={1} py={10} gap={20}>
               <Box
                 c="#273535"
@@ -179,7 +179,7 @@ const Dashboard = () => {
 
             <Divider orientation="vertical" size="sm" h="100%" />
           </Flex>
-          <Box ml="250px">
+          <Box ml="250px" w="calc(100% - 250px)">
             <Outlet />
           </Box>
         </Flex>

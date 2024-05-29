@@ -1,11 +1,15 @@
 import {
+  Avatar,
   Box,
   Button,
   Card,
+  Divider,
   FileButton,
   Flex,
+  Group,
   Image,
   Modal,
+  Text,
   Textarea,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
@@ -71,47 +75,108 @@ const Feed = () => {
   };
 
   const handleComment = () => {
-    return <Textarea size="md" label="Add Comment" placeholder="Add Comment" autosize/>;
+    return (
+      <Textarea
+        size="md"
+        label="Add Comment"
+        placeholder="Add Comment"
+        autosize
+      />
+    );
   };
 
   const DisplayPosts = () => {
     return posts.map((post, index) => (
-      <Card key={index} mb="sm" h="400px" maw="600px" m="auto">
-        <Card.Section h="30px">
+      <>
+        <Card key={index} maw="700px" m="auto">
+          <Card.Section h="60px" p="sm">
+            <Group>
+              <Avatar radius="xl" />
 
-        </Card.Section>
-        {post.image && (
-          <Card.Section h="300px">
-            <Image src={post.image} height="250px" alt="Post image" />
+              <div style={{ flex: 1, color: "dark" }}>
+                <Text size="sm" fw={500} c="#F9E2E2">
+                  name
+                </Text>
+              </div>
+            </Group>
           </Card.Section>
-        )}
-        <Card.Section h="100px">
-          <Box p="md">{post.description}</Box>
-        </Card.Section>
-        <Flex justify="space-between" align="center" p="md" h="50px">
-          <Image
-            h="1.5rem"
-            w="1.5rem"
-            src={likedPosts[index] ? filledHeartIcon : emptyHeartIcon}
-            onClick={() => toggleLike(index)}
-            alt="like icon"
-            style={{ cursor: "pointer" }}
-          />
-          <Image
-            h="1.5rem"
-            w="1.5rem"
-            src={commentIcon}
-            onClick={() => handleComment}
-            alt="comment icon"
-            style={{ cursor: "pointer" }}
-          />
-        </Flex>
-      </Card>
+          {post.image && (
+            <Card.Section h="300px">
+              <Image
+                src={post.image}
+                height="auto"
+                w="100%"
+                alt="Post image"
+                style={{ objectFit: "contain" }}
+              />
+            </Card.Section>
+          )}
+        </Card>
+        <Card withBorder maw="700px" m="auto" mb="lg">
+          <Card.Section h="80px">
+            <Box p="sm">{post.description}</Box>
+          </Card.Section>
+          <Card.Section>
+            <Flex
+              justify="space-between"
+              align="center"
+              pl="sm"
+              pr="sm"
+              h="50px">
+              <Image
+                h="1.5rem"
+                w="1.5rem"
+                src={likedPosts[index] ? filledHeartIcon : emptyHeartIcon}
+                onClick={() => toggleLike(index)}
+                alt="like icon"
+                style={{ cursor: "pointer" }}
+              />
+              <Image
+                h="1.5rem"
+                w="1.5rem"
+                src={commentIcon}
+                onClick={() => handleComment}
+                alt="comment icon"
+                style={{ cursor: "pointer" }}
+              />
+            </Flex>
+          </Card.Section>
+          <Card.Section pl="sm" pr="sm">
+            <Text>Comments</Text>
+            <Divider size="sm" />
+            <Box mb="xs">
+              <Group>
+                <Avatar radius="xl" size="xs" />
+
+                <div style={{ flex: 1, color: "dark" }}>
+                  <Text size="sm" fw={500} c="#F9E2E2">
+                    Adewole
+                  </Text>
+                </div>
+              </Group>
+              <Text ml={2}>Beautiful</Text>
+            </Box>
+            <Divider size="xs" w="80%" />
+            <Box mb="xs">
+              <Group>
+                <Avatar radius="xl" size="xs" />
+
+                <div style={{ flex: 1, color: "dark" }}>
+                  <Text size="sm" fw={500} c="#F9E2E2">
+                    Bayo
+                  </Text>
+                </div>
+              </Group>
+              <Text ml={2}>Absolutely stunning</Text>
+            </Box>
+          </Card.Section>
+        </Card>
+      </>
     ));
   };
 
   return (
-    <Box bg="#C3E9E9" p="md" ml={10} mt={10}>
+    <Box bg="#C3E9E9" p="md" w="100%">
       <Box mb="md">
         <Modal opened={opened} onClose={close} title="Post Upload">
           <FileButton

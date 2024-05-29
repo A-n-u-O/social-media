@@ -28,9 +28,10 @@ const date = new Date();
 
 const getFormattedDate = () => {
   const date = new Date();
-  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+  return `${date.getDate()}/${
+    date.getMonth() + 1
+  }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
 };
-
 
 const Feed = () => {
   const isMobile = useMediaQuery("(max-width: 50em)");
@@ -65,7 +66,10 @@ const Feed = () => {
 
   const addPost = () => {
     if (postDescription.trim() || fileURL) {
-      setPosts([...posts, { image: fileURL || "", description: postDescription }]);
+      setPosts([
+        ...posts,
+        { image: fileURL || "", description: postDescription },
+      ]);
       setLikedPosts([...likedPosts, false]);
       setFile(null);
       setFileURL(null);
@@ -83,11 +87,15 @@ const Feed = () => {
       <Group>
         <Avatar radius="xl" size="sm" />
         <div style={{ flex: 1 }}>
-          <Text size="md" fw={700} c="dark">{username}</Text>
-          <Box component="span">{getFormattedDate()}</Box>
+          <Text size="md" fw={700} c="dark">
+            {username}
+          </Text>
         </div>
       </Group>
       <Text ml="lg">{text}</Text>
+      <Box component="span" fz="xs">
+        {getFormattedDate()}
+      </Box>
     </Box>
   );
 
@@ -138,7 +146,7 @@ const Feed = () => {
           <Card.Section h="80px">
             <Box p="sm">{post.description}</Box>
           </Card.Section>
-          <Divider/>
+          <Divider />
           <Card.Section>
             <Flex
               justify="space-between"
@@ -154,7 +162,7 @@ const Feed = () => {
                 alt="like icon"
                 style={{ cursor: "pointer" }}
               />
-              <Divider/>
+              <Divider />
               <Image
                 h="1.5rem"
                 w="1.5rem"
@@ -165,8 +173,8 @@ const Feed = () => {
               />
             </Flex>
           </Card.Section>
-          <Card.Section pl="sm" pr="sm" style={{border: "2px solid black"}}>
-          <Text>Comments</Text>
+          <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }}>
+            <Text>Comments</Text>
             <Divider size="sm" />
             <Comment username="Adewole" text="Beautiful" />
             <Comment username="Bayo" text="Absolutely stunning" />

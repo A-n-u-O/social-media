@@ -25,10 +25,13 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 //   date: string;
 // };
 const date = new Date();
-date.getDate();
-date.getHours();
-date.getMinutes();
-date.getFullYear();
+
+const getFormattedDate = () => {
+  const date = new Date();
+  return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+};
+
+
 const Feed = () => {
   const isMobile = useMediaQuery("(max-width: 50em)");
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
@@ -75,6 +78,18 @@ const Feed = () => {
   const toggleLike = (index: number) => {
     setLikedPosts(likedPosts.map((liked, i) => (i === index ? !liked : liked)));
   };
+  const Comment = ({ username, text }: { username: string; text: string }) => (
+    <Box mb="xs" style={{ borderBottom: "1px solid black" }}>
+      <Group>
+        <Avatar radius="xl" size="sm" />
+        <div style={{ flex: 1 }}>
+          <Text size="md" fw={700} c="dark">{username}</Text>
+          <Box component="span">{getFormattedDate()}</Box>
+        </div>
+      </Group>
+      <Text ml="lg">{text}</Text>
+    </Box>
+  );
 
   const handleComment = () => {
     return (
@@ -123,6 +138,7 @@ const Feed = () => {
           <Card.Section h="80px">
             <Box p="sm">{post.description}</Box>
           </Card.Section>
+          <Divider/>
           <Card.Section>
             <Flex
               justify="space-between"
@@ -138,6 +154,7 @@ const Feed = () => {
                 alt="like icon"
                 style={{ cursor: "pointer" }}
               />
+              <Divider/>
               <Image
                 h="1.5rem"
                 w="1.5rem"
@@ -148,34 +165,11 @@ const Feed = () => {
               />
             </Flex>
           </Card.Section>
-          <Card.Section pl="sm" pr="sm">
-            <Text>Comments</Text>
+          <Card.Section pl="sm" pr="sm" style={{border: "2px solid black"}}>
+          <Text>Comments</Text>
             <Divider size="sm" />
-            <Box mb="xs">
-              <Group>
-                <Avatar radius="xl" size="sm" />
-
-                <div style={{ flex: 1 }}>
-                  <Text size="md" fw={700} c="dark">
-                    Adewole
-                  </Text>
-                </div>
-              </Group>
-              <Text ml="lg">Beautiful</Text>
-            </Box>
-            <Divider size="xs" w="80%" />
-            <Box mb="xs">
-              <Group>
-                <Avatar radius="xl" size="sm" />
-
-                <div style={{ flex: 1 }}>
-                  <Text size="md" fw={700} c="dark">
-                    Bayo
-                  </Text>
-                </div>
-              </Group>
-              <Text ml="lg">Absolutely stunning</Text>
-            </Box>
+            <Comment username="Adewole" text="Beautiful" />
+            <Comment username="Bayo" text="Absolutely stunning" />
           </Card.Section>
         </Card>
       </>

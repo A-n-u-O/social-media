@@ -146,7 +146,7 @@ const Feed = () => {
             <Divider size="sm" />
             <Box mb="xs">
               <Group>
-                <Avatar radius="xl" size="xs" />
+                <Avatar radius="xl" size="sm" />
 
                 <div style={{ flex: 1 }}>
                   <Text size="sm" fw={500} c="dark">
@@ -159,7 +159,7 @@ const Feed = () => {
             <Divider size="xs" w="80%" />
             <Box mb="xs">
               <Group>
-                <Avatar radius="xl" size="xs" />
+                <Avatar radius="xl" size="sm" />
 
                 <div style={{ flex: 1 }}>
                   <Text size="sm" fw={500} c="dark">

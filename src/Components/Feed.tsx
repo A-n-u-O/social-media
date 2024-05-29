@@ -149,12 +149,12 @@ const Feed = () => {
                 <Avatar radius="xl" size="sm" />
 
                 <div style={{ flex: 1 }}>
-                  <Text size="sm" fw={500} c="dark">
+                  <Text size="md" fw={700} c="dark">
                     Adewole
                   </Text>
                 </div>
               </Group>
-              <Text ml={2}>Beautiful</Text>
+              <Text ml="lg">Beautiful</Text>
             </Box>
             <Divider size="xs" w="80%" />
             <Box mb="xs">
@@ -162,12 +162,12 @@ const Feed = () => {
                 <Avatar radius="xl" size="sm" />
 
                 <div style={{ flex: 1 }}>
-                  <Text size="sm" fw={500} c="dark">
+                  <Text size="md" fw={700} c="dark">
                     Bayo
                   </Text>
                 </div>
               </Group>
-              <Text ml={2}>Absolutely stunning</Text>
+              <Text ml="lg">Absolutely stunning</Text>
             </Box>
           </Card.Section>
         </Card>

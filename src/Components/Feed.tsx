@@ -12,13 +12,13 @@ import {
   Text,
   Textarea,
 } from "@mantine/core";
-import { useEffect, useRef, useState } from "react";
+import { MouseEventHandler, useEffect, useRef, useState } from "react";
 import emptyHeartIcon from "../assets/emptyHeart.svg";
 import filledHeartIcon from "../assets/filledHeart.svg";
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
 import commentIcon from "../assets/Comment.svg";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 // type CommentProps = {
 //   comment: string;
@@ -30,6 +30,7 @@ date.getHours();
 date.getMinutes();
 date.getFullYear();
 const Feed = () => {
+  const isMobile = useMediaQuery("(max-width: 50em)");
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
   // const [comments, setComments] = useState<CommentProps[]>([]);
   const [file, setFile] = useState<File | null>(null);
@@ -53,14 +54,15 @@ const Feed = () => {
 
   const [opened, { open, close }] = useDisclosure(false);
   const [postDescription, setPostDescription] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handlePostDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPostDescription(e.target.value);
   };
 
   const addPost = () => {
-    if (fileURL) {
-      setPosts([...posts, { image: fileURL, description: postDescription }]);
+    if (postDescription.trim() || fileURL) {
+      setPosts([...posts, { image: fileURL || "", description: postDescription }]);
       setLikedPosts([...likedPosts, false]);
       setFile(null);
       setFileURL(null);
@@ -83,6 +85,10 @@ const Feed = () => {
         autosize
       />
     );
+  };
+  const handleImageClick = (image: string) => () => {
+    setSelectedImage(image);
+    open();
   };
 
   const DisplayPosts = () => {
@@ -108,6 +114,7 @@ const Feed = () => {
                 w="100%"
                 alt="Post image"
                 style={{ objectFit: "contain" }}
+                onClick={handleImageClick(post.image)}
               />
             </Card.Section>
           )}
@@ -209,7 +216,10 @@ const Feed = () => {
             value={postDescription}
             onChange={handlePostDescription}
           />
-          <Button onClick={addPost} m="md" disabled={!postDescription && !file}>
+          <Button
+            onClick={addPost}
+            m="md"
+            disabled={!postDescription.trim() && !file}>
             Post
           </Button>
         </Modal>
@@ -217,6 +227,25 @@ const Feed = () => {
       </Box>
       <Box>
         <DisplayPosts />
+        <Modal
+          opened={opened && !!selectedImage}
+          onClose={() => setSelectedImage(null)}
+          fullScreen={isMobile}
+          overlayProps={{ backgroundOpacity: 0.45, blur: 3 }}
+          transitionProps={{
+            transition: "fade",
+            duration: 600,
+            timingFunction: "linear",
+          }}>
+          {selectedImage && (
+            <Image
+              src={selectedImage}
+              w="auto"
+              h="auto"
+              style={{ objectFit: "contain" }}
+            />
+          )}
+        </Modal>
       </Box>
     </Box>
   );

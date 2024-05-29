@@ -9,22 +9,23 @@ import {
   Group,
   Image,
   Modal,
+  ScrollArea,
   Text,
   Textarea,
 } from "@mantine/core";
-import { MouseEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import emptyHeartIcon from "../assets/emptyHeart.svg";
 import filledHeartIcon from "../assets/filledHeart.svg";
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
 import commentIcon from "../assets/Comment.svg";
+import sendIcon from "../assets/sendIcon.svg";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 // type CommentProps = {
 //   comment: string;
 //   date: string;
 // };
-const date = new Date();
 
 const getFormattedDate = () => {
   const date = new Date();
@@ -36,12 +37,16 @@ const getFormattedDate = () => {
 const Feed = () => {
   const isMobile = useMediaQuery("(max-width: 50em)");
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
-  // const [comments, setComments] = useState<CommentProps[]>([]);
+  const [comments, setComments] = useState<
+    Array<Array<{ username: string; text: string; date: string }>>
+  >([]);
+  const [commentsVisible, setCommentsVisible] = useState<boolean[]>([]);
   const [file, setFile] = useState<File | null>(null);
   const [fileURL, setFileURL] = useState<null | string>(null);
   const [posts, setPosts] = useState<
     Array<{ image: string; description: string }>
   >([]);
+  const [commentCounts, setCommentCounts] = useState<number[]>([]);
   const resetRef = useRef<() => void>(null);
 
   useEffect(() => {
@@ -71,6 +76,9 @@ const Feed = () => {
         { image: fileURL || "", description: postDescription },
       ]);
       setLikedPosts([...likedPosts, false]);
+      setComments([...comments, []]);
+      setCommentCounts([...commentCounts, 0]);
+      setCommentsVisible([...commentsVisible, false]);
       setFile(null);
       setFileURL(null);
       setPostDescription("");
@@ -82,33 +90,105 @@ const Feed = () => {
   const toggleLike = (index: number) => {
     setLikedPosts(likedPosts.map((liked, i) => (i === index ? !liked : liked)));
   };
-  const Comment = ({ username, text }: { username: string; text: string }) => (
-    <Box mb="xs" style={{ borderBottom: "1px solid black" }}>
+  const toggleComments = (index: number) => {
+    setCommentsVisible(
+      commentsVisible.map((visible, i) => (i === index ? !visible : visible))
+    );
+  };
+  const addComment = (index: number, commentText: string) => {
+    if (commentText.trim()) {
+      const newComment = {
+        username: "User",
+        text: commentText,
+        date: getFormattedDate(),
+      };
+      setComments(
+        comments.map((postComments, i) =>
+          i === index ? [...postComments, newComment] : postComments
+        )
+      );
+      setCommentCounts(
+        commentCounts.map((count, i) => (i === index ? count + 1 : count))
+      );
+    }
+  };
+  const addCommentNumber = (index: number) => {
+    let commentNo = index + 1;
+    return commentNo;
+  };
+  const CommentNumber = ({ commentNo }: { commentNo: number }) => (
+    <Box component="span">{commentNo} comments</Box>
+  );
+
+  const Comment = ({
+    username,
+    text,
+    date,
+  }: {
+    username: string;
+    text: string;
+    date: string;
+  }) => (
+    <Box mb="xs" style={{ borderTop: "1px solid black" }}>
       <Group>
         <Avatar radius="xl" size="sm" />
         <div style={{ flex: 1 }}>
           <Text size="md" fw={700} c="dark">
-            {username}
+            {"name" && username}
           </Text>
         </div>
       </Group>
       <Text ml="lg">{text}</Text>
       <Box component="span" fz="xs">
-        {getFormattedDate()}
+        {date}
       </Box>
     </Box>
   );
-
-  const handleComment = () => {
+  const DisplayComments = ({ index }: { index: number }) => {
+    const [commentText, setCommentText] = useState<string>("");
     return (
-      <Textarea
-        size="md"
-        label="Add Comment"
-        placeholder="Add Comment"
-        autosize
-      />
+      <>
+        <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }} >
+          <ScrollArea h="250px">
+          <Textarea
+            size="md"
+            label="Add Comment"
+            placeholder="Add Comment"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            rightSection={
+              <Image
+              width="1.5rem"
+              h="1.5rem"
+                src={sendIcon}
+                onClick={() => {
+                  addComment(index, commentText);
+                  setCommentText("");
+                  addCommentNumber(index);
+                }}
+                w="md"
+              />
+            }
+            autosize
+          />
+
+          <CommentNumber commentNo={commentCounts[index]} />
+          <Divider size="sm" />
+          {comments[index].map((comment, i) => (
+            <Comment
+              key={i}
+              username={comment.username}
+              text={comment.text}
+              date={comment.date}
+            />
+          ))}
+          </ScrollArea>
+        </Card.Section>
+          
+      </>
     );
   };
+
   const handleImageClick = (image: string) => () => {
     setSelectedImage(image);
     open();
@@ -117,8 +197,8 @@ const Feed = () => {
   const DisplayPosts = () => {
     return posts.map((post, index) => (
       <>
-        <Card key={index} maw="700px" m="auto">
-          <Card.Section h="60px" p="sm">
+        <Card key={index} maw="600px" m="auto">
+          <Card.Section p="xs">
             <Group>
               <Avatar radius="xl" />
 
@@ -142,11 +222,10 @@ const Feed = () => {
             </Card.Section>
           )}
         </Card>
-        <Card withBorder maw="700px" m="auto" mb="lg">
-          <Card.Section h="80px">
+        <Card withBorder maw="600px" m="auto" mb="lg">
+          <Card.Section h="30px">
             <Box p="sm">{post.description}</Box>
           </Card.Section>
-          <Divider />
           <Card.Section>
             <Flex
               justify="space-between"
@@ -162,30 +241,25 @@ const Feed = () => {
                 alt="like icon"
                 style={{ cursor: "pointer" }}
               />
-              <Divider />
               <Image
                 h="1.5rem"
                 w="1.5rem"
                 src={commentIcon}
-                onClick={() => handleComment}
+                onClick={() => toggleComments(index)}
                 alt="comment icon"
                 style={{ cursor: "pointer" }}
               />
             </Flex>
           </Card.Section>
-          <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }}>
-            <Text>Comments</Text>
-            <Divider size="sm" />
-            <Comment username="Adewole" text="Beautiful" />
-            <Comment username="Bayo" text="Absolutely stunning" />
-          </Card.Section>
+          <Divider/>
+          {commentsVisible[index] && <DisplayComments index={0} />}
         </Card>
       </>
     ));
   };
 
   return (
-    <Box bg="#C3E9E9" p="md" w="100%">
+    <Box p="md" w="100%">
       <Box mb="md">
         <Modal opened={opened} onClose={close} title="Post Upload">
           <FileButton

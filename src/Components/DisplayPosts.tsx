@@ -60,10 +60,6 @@ export const DisplayPosts = ({
   commentCounts,
   handleCommentCounts,
 }: DisplayPostsProps) => {
-  const handleImageClick = (image: string) => () => {
-    handleSelectedImage(image);
-    open();
-  };
   const toggleLike = (index: number) => {
     handleLikedPosts(
       likedPosts.map((liked, i) => (i === index ? !liked : liked))
@@ -96,7 +92,7 @@ export const DisplayPosts = ({
               w="100%"
               alt="Post image"
               style={{ objectFit: "contain" }}
-              onClick={handleImageClick(post.image)}
+              onClick={() => handleSelectedImage(post.image)}
             />
           </Card.Section>
         )}

@@ -118,7 +118,7 @@ const Dashboard = () => {
         </Flex>
         {/* <Grid w="100%" gutter={0} bg="dark">
           <Grid.Col span={{ xs: 3 }}> */}
-        <Flex mt="80px" h="calc(100dvh - 80px)">
+        <Flex mt="80px" mih="calc(100dvh - 80px)">
           <Flex pos="fixed" left="0" top="80px" w="250px" h="100%" bg="dark">
             <Flex w="100%" direction="column" mr={1} py={10} gap={20}>
               <Box
@@ -179,7 +179,7 @@ const Dashboard = () => {
 
             <Divider orientation="vertical" size="sm" h="100%" />
           </Flex>
-          <Box ml="250px" w="calc(100% - 250px)">
+          <Box ml="250px" w="calc(100% - 250px)" mih="auto" bg="dark">
             <Outlet />
           </Box>
         </Flex>

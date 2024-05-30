@@ -70,28 +70,6 @@ export const DisplayComments = ({
     <>
       <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }}>
         <ScrollArea h="250px">
-          <Textarea
-            size="md"
-            label="Add Comment"
-            placeholder="Add Comment"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            rightSection={
-              <Image
-                width="1.5rem"
-                h="1.5rem"
-                src={sendIcon}
-                onClick={() => {
-                  addComment(index, commentText);
-                  setCommentText("");
-                  addCommentNumber(index);
-                }}
-                w="md"
-              />
-            }
-            autosize
-          />
-
           <CommentNumber commentNo={commentCounts[index]} />
           <Divider size="sm" />
           {comments[index].map((comment, i) => (
@@ -103,6 +81,28 @@ export const DisplayComments = ({
             />
           ))}
         </ScrollArea>
+        <Textarea
+          p="5px"
+          size="md"
+          label="Add Comment"
+          placeholder="Add Comment"
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          rightSection={
+            <Image
+              width="1.5rem"
+              h="1.5rem"
+              src={sendIcon}
+              onClick={() => {
+                addComment(index, commentText);
+                setCommentText("");
+                addCommentNumber(index);
+              }}
+              w="md"
+            />
+          }
+          autosize
+        />
       </Card.Section>
     </>
   );

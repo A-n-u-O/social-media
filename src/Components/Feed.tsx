@@ -1,4 +1,13 @@
-import { Box, Button, FileButton, Image, Modal, Textarea } from "@mantine/core";
+import {
+  Box,
+  Button,
+  CloseButton,
+  FileButton,
+  Flex,
+  Image,
+  Modal,
+  Textarea,
+} from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 
 import galleryUploadIcon from "../assets/galleryUpload.svg";
@@ -63,10 +72,13 @@ const Feed = () => {
   };
 
   const [opened, { open, close }] = useDisclosure(false);
+  const [openedImage, { open: openImage, close: closeImage }] =
+    useDisclosure(false);
   const [postDescription, setPostDescription] = useState<string>("");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const handleSelectedImage = (selectedImage: string | null) => {
     setSelectedImage(selectedImage);
+    openImage();
   };
 
   const handlePostDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -151,25 +163,63 @@ const Feed = () => {
           commentCounts={commentCounts}
           handleCommentCounts={handleCommentCounts}
         />
-        <Modal
-          opened={opened && !!selectedImage}
-          onClose={() => setSelectedImage(null)}
+        {openedImage && (
+          <Box
+            w="100%"
+            h="100dvh"
+            pos="fixed"
+            left="0"
+            onClick={() => {
+              setSelectedImage(null);
+              closeImage();
+            }}
+            top="0"
+            bg="#5c5a5a99"
+            style={{ zIndex: 500 }}>
+            <Flex justify="flex-end">
+              <CloseButton
+                onClick={() => {
+                  setSelectedImage(null);
+                  closeImage();
+                }}
+              />
+            </Flex>
+            <Flex justify="center">
+              {selectedImage && (
+                <Image
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  src={selectedImage}
+                  w="auto"
+                  h="auto"
+                  style={{ objectFit: "contain" }}
+                />
+              )}
+            </Flex>
+          </Box>
+        )}
+        {/* <Modal
+          opened={openedImage}
+          onClose={() => {
+            setSelectedImage(null);
+            closeImage();
+          }}
           fullScreen={isMobile}
           overlayProps={{ backgroundOpacity: 0.45, blur: 3 }}
-          transitionProps={{
-            transition: "fade",
-            duration: 600,
-            timingFunction: "linear",
-          }}>
-          {selectedImage && (
-            <Image
-              src={selectedImage}
-              w="auto"
-              h="auto"
-              style={{ objectFit: "contain" }}
-            />
-          )}
-        </Modal>
+          styles={{
+            root: {
+              width: "100%",
+            },
+          }}
+          // transitionProps={{
+          //   transition: "fade",
+          //   duration: 600,
+          //   timingFunction: "linear",
+          // }}
+        >
+          
+        </Modal> */}
       </Box>
     </Box>
   );

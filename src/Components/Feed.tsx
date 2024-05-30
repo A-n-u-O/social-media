@@ -16,7 +16,6 @@ import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { DisplayPosts } from "./DisplayPosts";
 
 const Feed = () => {
-  const isMobile = useMediaQuery("(max-width: 50em)");
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
   const handleLikedPosts = (likedPosts: boolean[]) => {
     setLikedPosts(likedPosts);

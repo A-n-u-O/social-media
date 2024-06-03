@@ -21,13 +21,13 @@ const Messages = () => {
     setSearch(e.target.value);
   };
   return (
-    <Grid bg="#fff">
-      <Grid.Col span="auto" m="10px" bg="#FEC3C2" mah="80%">
+    <Grid>
+      <Grid.Col span="auto" m="10px" mah="80%" pos="fixed" bottom="70%">
         <Input
           placeholder="Search for friends"
           value={search}
           onChange={handleSearch}
-          //   rightSectionPointerEvents=""
+          //rightSectionPointerEvents=""
           rightSection={<CloseButton />}
           leftSectionPointerEvents="none"
           leftSection={
@@ -40,7 +40,7 @@ const Messages = () => {
       </Grid.Col>
       <Divider orientation="vertical" size="xs" h={100} c="dark" />
       <Grid.Col span={9}>
-        <Flex justify="center" align="center">
+        <Flex justify="center" pos="fixed" bottom="10%" right="35%">
           <Button size="xl" onClick={() => navigate("chatBox")}>
             start chatting with friends!
           </Button>

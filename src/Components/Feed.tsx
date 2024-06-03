@@ -12,7 +12,7 @@ import { useEffect, useRef, useState } from "react";
 
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
-import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import { DisplayPosts } from "./DisplayPosts";
 
 const Feed = () => {
@@ -143,7 +143,29 @@ const Feed = () => {
             Post
           </Button>
         </Modal>
-        <Button onClick={open}>Post Something</Button>
+
+        <Flex
+        pos="fixed"
+        right="20px"
+        bottom="18px"
+          onClick={open}
+          justify="right"
+          fz="40px"
+          fw="600"
+          maw="400px"
+          style={{
+            cursor: "pointer",
+            borderRadius: "14px",
+            height: "4rem",
+            padding: "0 1.6rem",
+            textShadow: 'rgba(0, 0, 0, 0.25) 0 3px 8px',
+            backgroundImage: 'radial-gradient(93% 87% at 87% 89%,  #fba0a0d7  0%, transparent 86.18%), radial-gradient(66% 66% at 26% 20%, #f3c2c2d7  0%,  43.89%, #d08686d7  69.79%)',
+            transition:' all .5s',
+  boxShadow: "inset -3px -3px 9px rgba(255, 255, 255, 0.25), inset 0px 3px 9px rgba(255, 255, 255, 0.3), inset 0px 1px 1px rgba(255, 255, 255, 0.6), inset 0px -8px 36px rgba(0, 0, 0, 0.3), inset 0px 1px 5px rgba(255, 255, 255, 0.6), 2px 19px 31px rgba(0, 0, 0, 0.2)",
+  border: '0'
+          }}>
+          New Post
+        </Flex>
       </Box>
       <Box>
         <DisplayPosts

@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
   CloseButton,
-  Divider,
   Flex,
   Grid,
   Image,
@@ -10,19 +8,19 @@ import {
 } from "@mantine/core";
 import searchIcon from "../assets/searchIcon.svg";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import Friends from "./Friends";
+import ChatBox from "./ChatBox";
 
 const Messages = () => {
   const [search, setSearch] = useState<
     string | number | readonly string[] | undefined
   >();
-  const navigate = useNavigate();
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
   };
   return (
     <Grid>
-      <Grid.Col span="auto" m="10px" mah="80%" pos="fixed" bottom="70%">
+      <Grid.Col span="auto" m="10px" mah="80%" pos="fixed">
         <Input
           placeholder="Search for friends"
           value={search}
@@ -35,15 +33,15 @@ const Messages = () => {
           }
         />
         <Box h="80%" mt="20px" p="10px">
-          Your Friends will appear hear
+          <Friends/>
         </Box>
       </Grid.Col>
-      <Divider orientation="vertical" size="xs" h={100} c="dark" />
       <Grid.Col span={9}>
         <Flex justify="center" pos="fixed" bottom="10%" right="35%">
-          <Button size="xl" onClick={() => navigate("chatBox")}>
+          <Box size="xl">
+            <ChatBox/>
             start chatting with friends!
-          </Button>
+          </Box>
         </Flex>
       </Grid.Col>
     </Grid>

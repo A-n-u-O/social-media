@@ -1,6 +1,12 @@
+import { Box } from "@mantine/core"
+import { useState } from "react"
+
 const ChatBox = () => {
+  const[myMessage, setMyMessage] = useState('')
   return (
-    <div>ChatBox</div>
+    <Box>
+      <Box pos="fixed"></Box>
+    </Box>
   )
 }
 export default ChatBox

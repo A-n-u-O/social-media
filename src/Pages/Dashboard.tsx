@@ -81,7 +81,7 @@ const Dashboard = () => {
           justify="space-between">
           <Flex direction="row" justify="space-between" w="100%">
             <Text fz="40px" p="10px">
-              The FriendShip Zone
+              Social Hub
             </Text>
             {/* profile */}
             <Menu withArrow>

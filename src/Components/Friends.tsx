@@ -1,4 +1,4 @@
-import { Avatar, Box, List, ThemeIcon, rem } from "@mantine/core";
+import { Avatar, Box, List } from "@mantine/core";
 const FriendsList = [
   { name: "Mathew Kent", profile: "MK" },
   { name: "David Caesar", profile: "DC" },
@@ -15,19 +15,26 @@ const FriendsList = [
 const Friends = () => {
   return (
     <Box>
-      {FriendsList.map((friend, index) => (
-        <List
-          type="ordered"
-          center
-          icon={<Avatar radius="xl">{friend.profile}</Avatar>}>
-          <List.Item
-            value={friend.name}
-            key={index}
-            style={{ backgroundColor: "whitesmoke", margin: "10px" }}>
-            {friend.name}
-          </List.Item>
-        </List>
-      ))}
+        {FriendsList.map((friend, index) => (
+          <List
+            type="ordered"
+            center
+            icon={<Avatar radius="xl">{friend.profile}</Avatar>}>
+            <List.Item
+              value={friend.name}
+              key={index}
+              style={{
+                backgroundColor: "#fde1e1e7",
+                marginTop: "10px",
+                color: "black",
+                padding: "5px",
+                borderRadius: "10px",
+                cursor: "pointer"
+              }}>
+              {friend.name}
+            </List.Item>
+          </List>
+        ))}
     </Box>
   );
 };

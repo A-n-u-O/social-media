@@ -1,10 +1,12 @@
 import {
   Box,
   CloseButton,
+  Divider,
   Flex,
   Grid,
   Image,
   Input,
+  ScrollArea,
 } from "@mantine/core";
 import searchIcon from "../assets/searchIcon.svg";
 import { useState } from "react";
@@ -20,7 +22,7 @@ const Messages = () => {
   };
   return (
     <Grid>
-      <Grid.Col span="auto" m="10px" mah="80%" pos="fixed">
+      <Grid.Col span={3} m="10px" mah="90%" pos="sticky" bg="#fcf3f3">
         <Input
           placeholder="Search for friends"
           value={search}
@@ -33,14 +35,16 @@ const Messages = () => {
           }
         />
         <Box h="80%" mt="20px" p="10px">
-          <Friends/>
+          <ScrollArea h="100%">
+            <Friends />
+          </ScrollArea>
         </Box>
       </Grid.Col>
       <Grid.Col span={9}>
-        <Flex justify="center" pos="fixed" bottom="10%" right="35%">
+        <Flex justify="center" pos="fixed" bottom="10%" right="62%">
           <Box size="xl">
-            <ChatBox/>
-            start chatting with friends!
+            <ChatBox />
+            {/* start chatting with friends! */}
           </Box>
         </Flex>
       </Grid.Col>

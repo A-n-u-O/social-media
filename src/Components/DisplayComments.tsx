@@ -68,9 +68,10 @@ export const DisplayComments = ({
   const [commentText, setCommentText] = useState<string>("");
   return (
     <>
+      <CommentNumber commentNo={commentCounts[index]} />
+
       <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }}>
-        <ScrollArea h="250px">
-          <CommentNumber commentNo={commentCounts[index]} />
+        <ScrollArea h="auto">
           <Divider size="sm" />
           {comments[index].map((comment, i) => (
             <Comment

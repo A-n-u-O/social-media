@@ -26,7 +26,7 @@ const LandingPage = ({ opened }: { opened: boolean }) => {
           timingFunction="ease">
           {(styles) => (
             <Text c="#004080" size="2.5rem" style={styles}>
-              The Friendship Zone
+              Social Hub
             </Text>
           )}
         </Transition>

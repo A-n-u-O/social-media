@@ -20,8 +20,8 @@ const Messages = () => {
     setSearch(e.target.value);
   };
   return (
-    <Grid>
-      <Grid.Col span={3} m="10px" mah="90%" pos="sticky" bg="#fcf3f3">
+    <Grid pos="fixed">
+      <Grid.Col span={"auto"} m="10px" mah="100%" pos="sticky" bg="#fcf3f3">
         <Input
           placeholder="Search for friends"
           value={search}
@@ -33,15 +33,15 @@ const Messages = () => {
             <Image src={searchIcon} alt="search" w="1rem" h="1rem" />
           }
         />
-        <Box h="80%" mt="20px" p="10px">
-          <ScrollArea h="100%">
+        <Box h="100%" mt="20px" p="10px">
+          <ScrollArea h="80%">
             <Friends />
           </ScrollArea>
         </Box>
       </Grid.Col>
       <Grid.Col span={9}>
         <Flex justify="center" pos="fixed" bottom="10%" right="62%">
-          <Box size="xl">
+          <Box>
             <ChatBox />
             {/* start chatting with friends! */}
           </Box>

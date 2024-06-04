@@ -7,6 +7,7 @@ import {
   Image,
   Modal,
   Text,
+  TextInput,
   Textarea,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
@@ -82,7 +83,7 @@ const Feed = () => {
     openImage();
   };
 
-  const handlePostDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handlePostDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPostDescription(e.target.value);
   };
 
@@ -130,8 +131,7 @@ const Feed = () => {
             Remove
             <Image h="1.5rem" w="1.5rem" m="xs" src={galleryRemoveIcon} />
           </Button>
-          <Textarea
-            autosize
+          <TextInput
             size="md"
             label="Post description"
             placeholder="What's on your mind?"
@@ -166,16 +166,6 @@ const Feed = () => {
             w="3.5rem"
             style={{ cursor: "pointer" }}
             onClick={open}
-            //         fz="40px"
-            //         fw="600"
-            //         style={{
-            //           cursor: "pointer",
-            //           padding: "0 1.6rem",
-            //           color: 'radial-gradient(93% 87% at 87% 89%,  #fba0a0d7  0%, transparent 86.18%), radial-gradient(66% 66% at 26% 20%, #f3c2c2d7  0%,  43.89%, #d08686d7  69.79%)',
-            //           transition:' all .5s',
-            // boxShadow: "inset -3px -3px 9px rgba(255, 255, 255, 0.25), inset 0px 3px 9px rgba(255, 255, 255, 0.3), inset 0px 1px 1px rgba(255, 255, 255, 0.6), inset 0px -8px 36px rgba(0, 0, 0, 0.3), inset 0px 1px 5px rgba(255, 255, 255, 0.6), 2px 19px 31px rgba(0, 0, 0, 0.2)",
-            // border: '0'
-            //         }}
           />{" "}
           <Text size="25px" c="dark" fs="italic" fw="bold">
             New Post

@@ -41,7 +41,7 @@ const Messages = () => {
       </Grid.Col>
       <Grid.Col span={9}>
         <Flex justify="center" pos="fixed" bottom="10%" right="62%">
-          <Box>
+          <Box m="5%">
             <ChatBox />
             {/* start chatting with friends! */}
           </Box>

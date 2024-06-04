@@ -25,7 +25,7 @@ type DisplayPostsProps = {
     }[]
   ) => void;
   postDescription: string;
-  handlePostDescription: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  handlePostDescription: (e: React.ChangeEvent<HTMLInputElement>) => void;
   selectedImage: string | null;
   handleSelectedImage: (selectedImage: string | null) => void;
   likedPosts: boolean[];

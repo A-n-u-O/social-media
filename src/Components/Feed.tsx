@@ -8,7 +8,6 @@ import {
   Modal,
   Text,
   TextInput,
-  Textarea,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 
@@ -225,27 +224,6 @@ const Feed = () => {
             </Flex>
           </Box>
         )}
-        {/* <Modal
-          opened={openedImage}
-          onClose={() => {
-            setSelectedImage(null);
-            closeImage();
-          }}
-          fullScreen={isMobile}
-          overlayProps={{ backgroundOpacity: 0.45, blur: 3 }}
-          styles={{
-            root: {
-              width: "100%",
-            },
-          }}
-          // transitionProps={{
-          //   transition: "fade",
-          //   duration: 600,
-          //   timingFunction: "linear",
-          // }}
-        >
-          
-        </Modal> */}
       </Box>
     </Box>
   );

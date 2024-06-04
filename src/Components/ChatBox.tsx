@@ -1,13 +1,20 @@
-import { Box, Button, Flex, Image, TextInput } from "@mantine/core";
-import emojiIcon from "../assets/emojiButtonIcon.svg";
-
+import { Avatar, Box, Button, Flex, Image, Text, TextInput } from "@mantine/core";
 import React, { useState } from "react";
+import emojiIcon from "../assets/emojiButtonIcon.svg";
 import Emojis from "./Emojis";
+import Chats from "./Chats";
 
 const ChatBox = () => {
-  const [myMessage, setMyMessage] = useState("");
-  const [showEmojis, setShowEmojis] = useState(false);
-  const [sendText, setSendText] = useState("");
+  const [myMessage, setMyMessage] = useState<string>("");
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const [messages, setMessages] = useState<Array<{ text: string; date: string }>>([]);
+
+  const getFormattedDate = () => {
+    const date = new Date();
+    return `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+  };
 
   const handleShowEmojis = () => {
     setShowEmojis(!showEmojis);
@@ -15,22 +22,32 @@ const ChatBox = () => {
 
   const handleMyMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMyMessage(event.target.value);
-    displayMyMessage();
   };
-  const displayMyMessage = () => {};
 
   const handleEmojiSelect = (emoji: any) => {
     setMyMessage((prevMessage) => prevMessage + emoji.native);
   };
 
+  const displayMyMessage = () => {
+    if (myMessage.trim()) {
+      setMessages([...messages, { text: myMessage, date: getFormattedDate() }]);
+      setMyMessage(""); // Clear the input after sending the message
+    }
+  };
+
   return (
     <Box w="70%" pos="fixed">
+      <Flex bg="grey" pos="absolute" top="-580px" w="92%" align="center" p="xs">
+        <Avatar size="lg"/>
+        <Text size="lg" fw="bold">User</Text>
+      </Flex>
+      <Chats messages={messages}/>
       <Emojis handleEmojiSelect={handleEmojiSelect} showEmojis={showEmojis} />
-      <Flex align="center">
+      <Flex mb="sm">
         <TextInput
           style={{ flexGrow: 1 }}
           placeholder="Send a message"
-          maw="75%"
+          maw="80%"
           leftSection={
             <Image
               src={emojiIcon}
@@ -49,7 +66,8 @@ const ChatBox = () => {
           bg="#fde1e1e7"
           w="100px"
           ml="xs"
-          onClick={() => displayMyMessage}>
+          onClick={displayMyMessage}
+        >
           Send
         </Button>
       </Flex>

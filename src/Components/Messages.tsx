@@ -1,7 +1,6 @@
 import {
   Box,
   CloseButton,
-  Divider,
   Flex,
   Grid,
   Image,

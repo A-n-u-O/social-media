@@ -5,6 +5,7 @@ import {
   FileButton,
   Flex,
   Image,
+  Menu,
   Modal,
   Text,
   TextInput,
@@ -13,9 +14,15 @@ import { useEffect, useRef, useState } from "react";
 
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
+import emojiIcon from "../assets/emojiButtonIcon.svg";
+
 import addPostIcon from "../assets/addIcon.svg";
 import { useDisclosure } from "@mantine/hooks";
 import { DisplayPosts } from "./DisplayPosts";
+import Emojis from "./Emojis";
+import { getDecodedJwt, getDecodedJwtForPost } from "./helper";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const Feed = () => {
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
@@ -104,6 +111,53 @@ const Feed = () => {
     }
   };
 
+  //For adding emoji's to post upload
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const handleEmojiSelect = (emoji: any) => {
+    setPostDescription((prevMessage) => prevMessage + emoji.native);
+  };
+  const handleShowEmojis = () => {
+    setShowEmojis(!showEmojis);
+  };
+
+  const user = getDecodedJwt();
+  const userDescription = postDescription;
+  const userId = user ? user._id : "";
+  const userImage = file;
+  const userDetails = { userId, userDescription, userImage };
+
+  const handleAddPost = async () => {
+    const formData = new FormData();
+    formData.append("user", userDetails.userId);
+
+    if (userDetails.userDescription.trim() !== "") {
+      formData.append("text", userDetails.userDescription);
+    }
+    if (userDetails.userImage) {
+      formData.append("files", userDetails.userImage);
+    }
+
+    try {
+      const response = await axios.post(
+        "https://femmetech-backend.onrender.com/api/create-post",
+        formData,
+        {
+          headers: {
+            "Content-type": "multipart/form-data",
+            Authorization: `Bearer ${getDecodedJwtForPost()}`,
+          },
+        }
+      );
+      const userCode = getDecodedJwtForPost();
+
+      if (!userCode) {
+        return <Navigate to="/dashboard" />;
+      }
+      console.log(response.data);
+      addPost();
+    } catch (error) {}
+  };
+
   return (
     <Box p="md" w="100%" h="100%" bg="#F9E1E1" color="black">
       <Box mb="md">
@@ -130,15 +184,40 @@ const Feed = () => {
             Remove
             <Image h="1.5rem" w="1.5rem" m="xs" src={galleryRemoveIcon} />
           </Button>
+
           <TextInput
             size="md"
             label="Post description"
             placeholder="What's on your mind?"
+            leftSection={
+              <Menu shadow="md" width="auto">
+                <Menu.Target>
+                  <Image
+                    src={emojiIcon}
+                    w="1.5rem"
+                    h="1.5rem"
+                    mr="md"
+                    ml="md"
+                    onClick={handleShowEmojis}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <Emojis
+                      handleEmojiSelect={handleEmojiSelect}
+                      showEmojis={showEmojis}
+                    />
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            }
+            style={{ flexGrow: 1 }}
             value={postDescription}
             onChange={handlePostDescription}
           />
           <Button
-            onClick={addPost}
+            onClick={handleAddPost}
             m="md"
             disabled={!postDescription.trim() && !file}>
             Post

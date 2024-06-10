@@ -17,16 +17,17 @@ import {
 import { Outlet, useNavigate } from "react-router";
 import arrowUpIcon from "../assets/arrowUpIcon.svg";
 import chevronRightIcon from "../assets/chevronRightIcon.svg";
-import homeIcon from "../assets/homeIcon.svg";
 import messageIcon from "../assets/messageIcon.svg";
 import feedIcon from "../assets/feedIcon.svg";
 import logOutIcon from "../assets/logOutIcon.svg";
 import { useWindowScroll } from "@mantine/hooks";
 import { forwardRef } from "react";
+import { getDecodedJwt } from "../Components/helper";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [scroll, scrollTo] = useWindowScroll();
-
+  const user = getDecodedJwt();
+  console.log(user);
   interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
     image: string;
     name: string;
@@ -45,7 +46,7 @@ const Dashboard = () => {
         }}
         {...others}>
         <Group>
-          <Avatar radius="xl" />
+          <Avatar radius="xl" src={user ? user.profilePicture : ""} />
 
           <div style={{ flex: 1 }}>
             <Text size="sm" fw={500} c="#F9E2E2">
@@ -84,32 +85,47 @@ const Dashboard = () => {
               Social Hub
             </Text>
             {/* profile */}
-            <Menu withArrow>
+            <Menu shadow="lg" width={250} withArrow>
               <Menu.Target>
                 <UserButton
-                  name="Harriette Spoonlicker"
-                  email="hspoonlicker@outlook.com"
-                  image={""}
+                  name={user ? user.firstname + " " + user.lastname : ""}
+                  email={user ? user.email : ""}
+                  image={user ? user.profilePicture : ""}
                 />
               </Menu.Target>
-              <Menu.Dropdown>
+              <Menu.Dropdown bg="#F9E1E1">
                 <MenuItem
+                  bg="white"
+                  m="5%"
+                  maw="90%"
                   leftSection={
-                    <Avatar
-                      src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-                      radius="xl"
-                      size="sm"
-                    />
+                    <Image w="1rem" h="1rem" c="blue" src={chevronRightIcon} />
                   }>
-                  <MenuLabel>View profile</MenuLabel>
+                  <MenuLabel>
+                    <Flex gap="3%" align="center" justify="center">
+                      <Avatar
+                        src={user ? user.profilePicture : ""}
+                        radius="xl"
+                        size="md"
+                        mr="3px"
+                      />{" "}
+                      <Text> View profile</Text>
+                    </Flex>
+                  </MenuLabel>
                 </MenuItem>
-                <MenuItem leftSection={<img src={chevronRightIcon} />}>
-                  <MenuItem
-                    leftSection={
-                      <Image src={logOutIcon} h="1.6rem" w="1.6rem" />
-                    }>
-                    <MenuLabel onClick={() => navigate("/")}>Logout</MenuLabel>
-                  </MenuItem>
+                <MenuItem
+                   m="5%"
+                   maw="90%"
+                  bg="white"
+                  leftSection={
+                    <Image w="1rem" h="1rem" c="blue" src={chevronRightIcon} />
+                  }>
+                  <MenuLabel onClick={() => navigate("/")}>
+                    <Flex gap="5%" align="center" justify="center">
+                      <Image src={logOutIcon} h="1.5rem" w="1.5rem" />
+                      <Text>Logout</Text>
+                    </Flex>
+                  </MenuLabel>
                 </MenuItem>
               </Menu.Dropdown>
             </Menu>
@@ -121,7 +137,7 @@ const Dashboard = () => {
         <Flex mt="80px" mih="calc(100dvh - 80px)">
           <Flex pos="fixed" left="0" top="80px" w="250px" h="100%" bg="dark">
             <Flex w="100%" direction="column" mr={1} py={10} gap={20}>
-              <Box
+              {/* <Box
                 c="#273535"
                 bg="#F9E1E1"
                 p="10px"
@@ -138,7 +154,7 @@ const Dashboard = () => {
                   alt="home"
                 />
                 Home
-              </Box>
+              </Box> */}
               <Box
                 c="#273535"
                 bg="#F9E1E1"

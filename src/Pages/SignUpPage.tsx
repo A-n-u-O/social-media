@@ -16,10 +16,11 @@ import {
 import { isEmail, useForm } from "@mantine/form";
 import at from "../assets/iconAt.svg";
 import imageIcon from "../assets/iconImage.svg";
-import doneIcon from "../assets/doneIcon.svg";
+import doneIcon from "../assets/checkIcon.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { notifications } from "@mantine/notifications";
 
 // type SignUpPageProps = {
 //   name: [firstName: string, lastName: string];
@@ -113,7 +114,6 @@ const SignUpPage = () => {
       formData.append("lastname", values.lastName);
       formData.append("email", values.email);
       formData.append("password", values.password);
-      formData.append("phone", "0800000000");
       formData.append("role", "PATIENT");
       if (profilePicture) {
         formData.append("files", profilePicture);
@@ -129,10 +129,18 @@ const SignUpPage = () => {
           }
         );
         console.log(response.data);
+        notifications.show({
+          title: 'Success',
+          message: 'Sign Up Successful! 🤥',
+        })
         navigate("/logInPage");
       } catch (error) {
         console.error("error occurred", error);
-        setError("An error occurred during signup. Please try again.");
+        setError("An error occurred during sign up. Please try again.");
+        notifications.show({
+          title: 'error occurred',
+          message: 'An error occurred during sign up. Please try again.',
+        })
       }
     } else {
       alert("please fill all asterisked fields");

@@ -1,7 +1,19 @@
-import { Card, ScrollArea, Textarea, Divider, Image, Box } from "@mantine/core";
+import {
+  Card,
+  ScrollArea,
+  Divider,
+  Image,
+  Box,
+  TextInput,
+  Flex,
+  Menu,
+} from "@mantine/core";
 import sendIcon from "../assets/sendIcon.svg";
+import emojiIcon from "../assets/emojiButtonIcon.svg";
+
 import { useState } from "react";
 import { Comment } from "./Comment";
+import Emojis from "./Emojis";
 
 type DisplayCommentsProp = {
   index: number;
@@ -65,12 +77,20 @@ export const DisplayComments = ({
       );
     }
   };
+  //emoji for comments
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const handleShowEmojis = () => {
+    setShowEmojis(!showEmojis);
+  };
+  const handleEmojiSelect = (emoji: any) => {
+    setCommentText((prevMessage) => prevMessage + emoji.native);
+  };
   const [commentText, setCommentText] = useState<string>("");
   return (
     <>
       <CommentNumber commentNo={commentCounts[index]} />
 
-      <Card.Section pl="sm" pr="sm" style={{ border: "2px solid black" }}>
+      <Card.Section pl="sm" pr="sm">
         <ScrollArea h="auto">
           <Divider size="sm" />
           {comments[index].map((comment, i) => (
@@ -82,28 +102,49 @@ export const DisplayComments = ({
             />
           ))}
         </ScrollArea>
-        <Textarea
-          p="5px"
-          size="md"
-          label="Add Comment"
-          placeholder="Add Comment"
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          rightSection={
-            <Image
-              width="1.5rem"
-              h="1.5rem"
-              src={sendIcon}
-              onClick={() => {
-                addComment(index, commentText);
-                setCommentText("");
-                addCommentNumber(index);
-              }}
-              w="md"
-            />
-          }
-          autosize
-        />
+        <Flex justify="center" align="center">
+          <TextInput
+            p="5px"
+            size="md"
+            placeholder="Add Comment"
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            leftSection={
+              <Menu shadow="md" width="auto">
+                <Menu.Target>
+                  <Image
+                    src={emojiIcon}
+                    w="1.5rem"
+                    h="1.5rem"
+                    mr="md"
+                    ml="md"
+                    onClick={handleShowEmojis}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <Emojis
+                      handleEmojiSelect={handleEmojiSelect}
+                      showEmojis={showEmojis}
+                    />
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            }
+            w="100%"
+          />
+          <Image
+            width="1.5rem"
+            h="1.5rem"
+            src={sendIcon}
+            onClick={() => {
+              addComment(index, commentText);
+              setCommentText("");
+              addCommentNumber(index);
+            }}
+          />
+        </Flex>
       </Card.Section>
     </>
   );

@@ -11,26 +11,62 @@ import {
 } from "@mantine/core";
 import { isEmail, useForm } from "@mantine/form";
 import at from "../assets/iconAt.svg";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
+import { notifications } from "@mantine/notifications";
+import { getDecodedJwt } from "../Components/helper";
 
 const LogInPage = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
-      firstName: "",
-      lastName: "",
       email: "",
       password: "",
-      confirmPassword: "",
-      terms: false,
     },
     validate: {
       email: isEmail("Invalid email"),
-      confirmPassword: (value, values) => {
-        return value !== values.password ? "passwords don't match" : null;
-      },
     },
   });
+
+  const handleSubmit = async (values: any) => {
+    try {
+      const response = await axios.post(
+        "https://femmetech-backend.onrender.com/api/signin",
+        { email: values.email, password: values.password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(response.data);
+      const data = response.data;
+      localStorage.setItem("token", data.token);
+      notifications.show({
+        message: "Success !",
+      });
+      notifications.show({
+        message: "Welcome !",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Login error", error);
+      setError("Invalid email or password");
+      notifications.show({
+        title: "Login error",
+        message: "An error occurred. Please try again.",
+      });
+    }
+  };
+  const decodedUser = getDecodedJwt();
+
+  if (decodedUser) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <Box w="100%" h="100vh" mx="auto" ta="center" bg="#F9E2E2" lts="1px">
@@ -39,7 +75,7 @@ const LogInPage = () => {
       </Text>
       <Divider p="md" />
       <form
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit(handleSubmit)}
         style={{ maxWidth: "500px", margin: "auto" }}>
         <Grid grow>
           <Grid.Col span={12}>
@@ -76,7 +112,13 @@ const LogInPage = () => {
               {...form.getInputProps("password")}
             />
           </Grid.Col>
-
+          {error && (
+            <Grid.Col span={12}>
+              <Text color="red" size="sm">
+                {error}
+              </Text>
+            </Grid.Col>
+          )}
           <Grid.Col span={6}>
             <Group justify="flex-end" mt="md">
               <Button
@@ -84,9 +126,7 @@ const LogInPage = () => {
                 size="md"
                 radius="sm"
                 w="200px"
-                type="submit"
-                component={Link}
-                to="/dashboard">
+                type="submit">
                 Log In
               </Button>
             </Group>
@@ -109,4 +149,5 @@ const LogInPage = () => {
     </Box>
   );
 };
+
 export default LogInPage;

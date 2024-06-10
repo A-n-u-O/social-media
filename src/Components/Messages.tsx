@@ -21,7 +21,7 @@ const Messages = () => {
   };
   return (
     <Grid pos="fixed">
-      <Grid.Col span={"auto"} m="10px" mah="100%" pos="sticky" bg="#fcf3f3">
+      <Grid.Col span={"auto"} m="10px" mah="100%" pos="sticky" bg="#fcf3f3" style={{zIndex: '40%'}}>
         <Input
           placeholder="Search for friends"
           value={search}

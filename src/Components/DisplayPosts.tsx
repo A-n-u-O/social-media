@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import { DisplayComments } from "./DisplayComments";
-import { getDecodedJwt, getDecodedJwtForPost } from "./helper";
+import { getDecodedJwtForPost } from "./helper";
 
 type DisplayPostsProps = {
   posts: {
@@ -48,11 +48,6 @@ export const DisplayPosts = ({
   posts,
   handlePosts,
   handleSelectedImage,
-  likedPosts,
-  handleLikedPosts,
-  commentsVisible,
-  handleCommentsVisible,
-  comments,
   handleComments,
 }: DisplayPostsProps) => {
   const [isLoading, setIsLoading] = useState(false);

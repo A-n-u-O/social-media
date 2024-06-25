@@ -38,9 +38,6 @@ export const DisplayComments = ({
   index,
   comments,
   likes,
-  // commentCounts,
-  // handleCommentCounts,
-  handleComments,
   postId,
 }: DisplayCommentsProp) => {
   // Handling comments
@@ -54,7 +51,6 @@ export const DisplayComments = ({
 
   const [commentText, setCommentText] = useState<string>("");
   const [likedPosts, setLikedPosts] = useState<any[]>(likes);
-  const [noOfLikes, setNoOfLikes] = useState<number>(0);
   const [opened, { toggle }] = useDisclosure(false);
   const handleEmojiSelect = (emoji: any) => {
     setCommentText((prevMessage) => prevMessage + emoji.native);
@@ -66,7 +62,7 @@ export const DisplayComments = ({
 
   const user = getDecodedJwt();
 
-  const handleCommentSubmit = async (postId: string, index: number) => {
+  const handleCommentSubmit = async (postId: string) => {
     if (commentText.trim()) {
       const userId = user ? user._id : "";
       const formData = {
@@ -120,7 +116,6 @@ export const DisplayComments = ({
     }
   };
 
-  const handleCheckLiked = () => {};
   // const toggleComments = () => {
   //   opened={opened}
   //   onclose={close}

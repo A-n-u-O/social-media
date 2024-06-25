@@ -1,150 +1,187 @@
-import {
-  Card,
-  ScrollArea,
-  Divider,
-  Image,
-  Box,
-  TextInput,
-  Flex,
-  Menu,
-} from "@mantine/core";
-import sendIcon from "../assets/sendIcon.svg";
-import emojiIcon from "../assets/emojiButtonIcon.svg";
-
-import { useState } from "react";
+import { Card, ScrollArea, Divider, Box, Flex, Image } from "@mantine/core";
 import { Comment } from "./Comment";
-import Emojis from "./Emojis";
+import AddComment from "./AddComment";
+import {
+  getDecodedJwt,
+  getDecodedJwtForComment,
+  getDecodedJwtForLikes,
+} from "./helper";
+import axios from "axios";
+import { useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
+import emptyHeartIcon from "../assets/emptyHeart.svg";
+import filledHeartIcon from "../assets/filledHeart.svg";
+import commentIcon from "../assets/Comment.svg";
+import { notifications } from "@mantine/notifications";
 
 type DisplayCommentsProp = {
   index: number;
+  likes: any;
   comments: {
     username: string;
     text: string;
     date: string;
   }[][];
+  // commentCounts: number[];
   handleComments: (
     comments: {
-      username: string;
-      text: string;
-      date: string;
+      username: any;
+      text: any;
+      date: any;
     }[][]
   ) => void;
-  commentCounts: number[];
-  handleCommentCounts: (commentCounts: number[]) => void;
+  // handleCommentCounts: (commentCounts: number[]) => void;
+  postId: string;
 };
 
 export const DisplayComments = ({
   index,
   comments,
+  likes,
+  // commentCounts,
+  // handleCommentCounts,
   handleComments,
-  commentCounts,
-  handleCommentCounts,
+  postId,
 }: DisplayCommentsProp) => {
-  const getFormattedDate = () => {
-    const date = new Date();
-    return `${date.getDate()}/${
-      date.getMonth() + 1
-    }/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-  };
+  // Handling comments
+  const [mainComment, setMainComment] = useState<
+    {
+      username: string;
+      text: string;
+      date: string;
+    }[][]
+  >(comments);
 
-  //Function to update number of comments
-  const addCommentNumber = (index: number) => {
-    let commentNo = index + 1;
-    return commentNo;
-  };
-
-  //Component to update number of comments
-  const CommentNumber = ({ commentNo }: { commentNo: number }) => (
-    <Box component="span">{commentNo} comments</Box>
-  );
-
-  //Function to update comments
-  const addComment = (index: number, commentText: string) => {
-    if (commentText.trim()) {
-      const newComment = {
-        username: "User",
-        text: commentText,
-        date: getFormattedDate(),
-      };
-      handleComments(
-        comments.map((postComments, i) =>
-          i === index ? [...postComments, newComment] : postComments
-        )
-      );
-      //update comment numbers
-      handleCommentCounts(
-        commentCounts.map((count, i) => (i === index ? count + 1 : count))
-      );
-    }
-  };
-  //emoji for comments
-  const [showEmojis, setShowEmojis] = useState<boolean>(false);
-  const handleShowEmojis = () => {
-    setShowEmojis(!showEmojis);
-  };
+  const [commentText, setCommentText] = useState<string>("");
+  const [likedPosts, setLikedPosts] = useState<any[]>(likes);
+  const [noOfLikes, setNoOfLikes] = useState<number>(0);
+  const [opened, { toggle }] = useDisclosure(false);
   const handleEmojiSelect = (emoji: any) => {
     setCommentText((prevMessage) => prevMessage + emoji.native);
   };
-  const [commentText, setCommentText] = useState<string>("");
+
+  const handleCommentText = (commentText: string) => {
+    setCommentText(commentText);
+  };
+
+  const user = getDecodedJwt();
+
+  const handleCommentSubmit = async (postId: string, index: number) => {
+    if (commentText.trim()) {
+      const userId = user ? user._id : "";
+      const formData = {
+        user: userId,
+        text: commentText,
+      };
+
+      try {
+        const response = await axios.put(
+          `https://femmetech-backend.onrender.com/api/add-comment/${postId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${getDecodedJwtForComment()}`,
+            },
+          }
+        );
+        setMainComment(response.data?.comments);
+        setCommentText("");
+      } catch (error) {
+        console.error("Error adding comment:", error);
+        notifications.show({
+          message: "error adding comment",
+        });
+      }
+    }
+  };
+
+  const handleLikes = async () => {
+    const userId = user ? user._id : "";
+    try {
+      const response = await axios.put(
+        `https://femmetech-backend.onrender.com/api/like-post/${postId}`,
+        { userId: userId },
+        {
+          headers: {
+            Authorization: `Bearer ${getDecodedJwtForLikes()}`,
+          },
+        }
+      );
+      setLikedPosts(response.data?.postLiked.likes);
+      // setNoOfLikes(response.data?.likes.length);
+      notifications.show({
+        message: "post liked!",
+      });
+    } catch (error) {
+      console.error("Error liking post:", error);
+      notifications.show({
+        message: "unable to like post",
+      });
+    }
+  };
+
+  const handleCheckLiked = () => {};
+  // const toggleComments = () => {
+  //   opened={opened}
+  //   onclose={close}
+  // };
+
   return (
     <>
-      <CommentNumber commentNo={commentCounts[index]} />
+      <Card.Section mt="xl">
+        <Flex justify="space-between" align="center" pl="sm" pr="sm" h="50px">
+          <Flex direction="column" justify="center" align="center">
+            <Image
+              h="1.5rem"
+              w="1.5rem"
+              src={
+                likedPosts.find((item) => item.user === user?._id)
+                  ? filledHeartIcon
+                  : emptyHeartIcon
+              }
+              onClick={handleLikes}
+              alt="like icon"
+              style={{ cursor: "pointer" }}
+            />
+            <Box component="span">{likedPosts.length} likes</Box>
+          </Flex>
+          <Flex direction="column" justify="center" align="center">
+            <Image
+              h="1.5rem"
+              w="1.5rem"
+              src={commentIcon}
+              onClick={toggle}
+              alt="comment icon"
+              style={{ cursor: "pointer" }}
+            />
+            <Box component="span">{mainComment.length} comments</Box>
+          </Flex>
+        </Flex>
+      </Card.Section>
+      <Divider />
 
       <Card.Section pl="sm" pr="sm">
         <ScrollArea h="auto">
           <Divider size="sm" />
-          {comments[index].map((comment, i) => (
-            <Comment
-              key={i}
-              username={comment.username}
-              text={comment.text}
-              date={comment.date}
-            />
-          ))}
+          {opened &&
+            mainComment &&
+            mainComment.map((comment: any, i: number) => (
+              <Comment
+                key={i}
+                username={comment?.user?.firstname || "--"}
+                text={comment?.text || "--"}
+                date={comment?.createdAt || "--"}
+              />
+            ))}
+          <AddComment
+            postId={postId}
+            index={index}
+            commentText={commentText}
+            handleCommentText={handleCommentText}
+            handleCommentSubmit={handleCommentSubmit}
+            handleEmojiSelect={handleEmojiSelect}
+          />
         </ScrollArea>
-        <Flex justify="center" align="center">
-          <TextInput
-            p="5px"
-            size="md"
-            placeholder="Add Comment"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            leftSection={
-              <Menu shadow="md" width="auto">
-                <Menu.Target>
-                  <Image
-                    src={emojiIcon}
-                    w="1.5rem"
-                    h="1.5rem"
-                    mr="md"
-                    ml="md"
-                    onClick={handleShowEmojis}
-                    style={{ cursor: "pointer" }}
-                  />
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item>
-                    <Emojis
-                      handleEmojiSelect={handleEmojiSelect}
-                      showEmojis={showEmojis}
-                    />
-                  </Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            }
-            w="100%"
-          />
-          <Image
-            width="1.5rem"
-            h="1.5rem"
-            src={sendIcon}
-            onClick={() => {
-              addComment(index, commentText);
-              setCommentText("");
-              addCommentNumber(index);
-            }}
-          />
-        </Flex>
       </Card.Section>
     </>
   );

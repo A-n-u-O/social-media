@@ -112,6 +112,7 @@ const SignUpPage = () => {
     ) {
       formData.append("firstname", values.firstName);
       formData.append("lastname", values.lastName);
+      formData.append("phone", "08100000000")
       formData.append("email", values.email);
       formData.append("password", values.password);
       formData.append("role", "PATIENT");

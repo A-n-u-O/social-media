@@ -1,6 +1,6 @@
 const ErrorPage = () => {
   return (
-    <div>ErrorPage</div>
+    <div>Oops! page not found</div>
   )
 }
 export default ErrorPage

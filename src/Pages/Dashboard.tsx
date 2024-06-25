@@ -68,6 +68,9 @@ const Dashboard = () => {
       </UnstyledButton>
     )
   );
+  const handleLogout=()=>{
+    localStorage.removeItem("token")
+  }
   return (
     <>
       <Box mih="100%" c="#F9E2E2" w="100%" bg="dark">
@@ -123,7 +126,7 @@ const Dashboard = () => {
                   <MenuLabel onClick={() => navigate("/")}>
                     <Flex gap="5%" align="center" justify="center">
                       <Image src={logOutIcon} h="1.5rem" w="1.5rem" />
-                      <Text>Logout</Text>
+                      <Text onClick={()=>{handleLogout()}}>Logout</Text>
                     </Flex>
                   </MenuLabel>
                 </MenuItem>

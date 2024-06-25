@@ -24,3 +24,11 @@ export const getDecodedJwt = () => {
 export const getDecodedJwtForPost = () => {
   return localStorage.getItem("token") || "";
 };
+
+export const getDecodedJwtForComment = () => {
+  return localStorage.getItem("token") || "";
+};
+
+export const getDecodedJwtForLikes = () => {
+  return localStorage.getItem("token") || "";
+};

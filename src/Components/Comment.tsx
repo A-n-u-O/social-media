@@ -1,9 +1,9 @@
 import { Box, Group, Avatar, Text } from "@mantine/core";
 
 type CommentProps = {
-  username: string;
-  text: string;
-  date: string;
+  username: any;
+  text: any;
+  date: any;
 };
 
 export const Comment = ({

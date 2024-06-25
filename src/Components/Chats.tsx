@@ -9,7 +9,7 @@ type ChatsProps = {
 const Chats = ({ messages }: ChatsProps) => {
   return (
     <>
-      <Flex direction="column" gap="md">
+      <Flex direction="column" gap="md"  bg="white">
         {messages.map((message, index) => (
           <Box
             pos="absolute"

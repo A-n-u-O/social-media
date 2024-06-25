@@ -1,27 +1,23 @@
-import {
-  Card,
-  Group,
-  Avatar,
-  Box,
-  Flex,
-  Divider,
-  Image,
-  Text,
-} from "@mantine/core";
-import emptyHeartIcon from "../assets/emptyHeart.svg";
-import filledHeartIcon from "../assets/filledHeart.svg";
-import commentIcon from "../assets/Comment.svg";
+import { Card, Group, Avatar, Box, Divider, Image, Text } from "@mantine/core";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import { DisplayComments } from "./DisplayComments";
+import { getDecodedJwt, getDecodedJwtForPost } from "./helper";
 
 type DisplayPostsProps = {
   posts: {
+    _id: string;
     image: string;
     description: string;
+    comments: string;
   }[];
   handlePosts: (
     posts: {
+      _id: string;
       image: string;
       description: string;
+      comments: string;
     }[]
   ) => void;
   postDescription: string;
@@ -44,12 +40,13 @@ type DisplayPostsProps = {
       date: string;
     }[][]
   ) => void;
-  commentCounts: number[];
-  handleCommentCounts: (commentCounts: number[]) => void;
+  // commentCounts: number[];
+  // handleCommentCounts: (commentCounts: number[]) => void;
 };
 
 export const DisplayPosts = ({
   posts,
+  handlePosts,
   handleSelectedImage,
   likedPosts,
   handleLikedPosts,
@@ -57,81 +54,93 @@ export const DisplayPosts = ({
   handleCommentsVisible,
   comments,
   handleComments,
-  commentCounts,
-  handleCommentCounts,
 }: DisplayPostsProps) => {
-  const toggleLike = (index: number) => {
-    handleLikedPosts(
-      likedPosts.map((liked, i) => (i === index ? !liked : liked))
-    );
-  };
-  const toggleComments = (index: number) => {
-    handleCommentsVisible(
-      commentsVisible.map((visible, i) => (i === index ? !visible : visible))
-    );
-  };
-  return posts.map((post, index) => (
-    <>
-      <Card key={index} maw="600px" m="auto">
-        <Card.Section p="xs">
-          <Group>
-            <Avatar radius="xl" />
+  const [isLoading, setIsLoading] = useState(false);
 
-            <div style={{ flex: 1 }}>
-              <Text size="sm" fw={500} c="dark">
-                name
-              </Text>
-            </div>
-          </Group>
-        </Card.Section>
-        {post.image && (
-          <Card.Section h="300px">
-            <Image
-              src={post.image}
-              height="auto"
-              w="100%"
-              alt="Post image"
-              style={{ objectFit: "contain" }}
-              onClick={() => handleSelectedImage(post.image)}
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      try {
+        const token = getDecodedJwtForPost();
+        const response = await axios.get<{
+          posts: {
+            _id: string;
+            image: string;
+            description: string;
+            comments: string;
+          }[];
+        }>("https://femmetech-backend.onrender.com/api/posts", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+        if (response.data) {
+          handlePosts(response.data?.posts);
+          // Initialize comments and commentCounts based on fetched posts
+          // handleComments(response.data?.posts?.comments);
+          // handleCommentCounts(response.data?.posts?.comments?.length);
+        } else {
+          handlePosts([]);
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  return (
+    <>
+      {isLoading ? (
+        <Box size="xl" color="white" ta="center">
+          Loading...
+        </Box>
+      ) : (
+        posts?.map((post: any, index: number) => (
+          <Card key={post?._id} maw="600px" m="auto" mb="5%">
+            <Card.Section p="xs">
+              <Group pb="2%">
+                <Avatar radius="xl" />
+                <div style={{ flex: 1 }}>
+                  <Text size="sm" fw={500} c="dark">
+                    {post?.user?.firstname}
+                  </Text>
+                </div>
+              </Group>
+              <Divider />
+            </Card.Section>
+            {post?.image && (
+              <Card.Section h="300px">
+                <Image
+                  src={post?.image}
+                  height="auto"
+                  w="100%"
+                  alt="Post image"
+                  style={{ objectFit: "contain" }}
+                  onClick={() => handleSelectedImage(post?.image)}
+                />
+              </Card.Section>
+            )}
+            <Card.Section h="30px">
+              <Box p="sm">{post?.text}</Box>
+            </Card.Section>
+
+            <DisplayComments
+              postId={post?._id}
+              index={index}
+              comments={post?.comments}
+              likes={post?.likes}
+              handleComments={handleComments}
+              // commentCounts={post?.comments?.length}
+              // handleCommentCounts={handleCommentCounts}
             />
-          </Card.Section>
-        )}
-      </Card>
-      <Card withBorder maw="600px" m="auto" mb="lg">
-        <Card.Section h="30px">
-          <Box p="sm">{post.description}</Box>
-        </Card.Section>
-        <Card.Section>
-          <Flex justify="space-between" align="center" pl="sm" pr="sm" h="50px">
-            <Image
-              h="1.5rem"
-              w="1.5rem"
-              src={likedPosts[index] ? filledHeartIcon : emptyHeartIcon}
-              onClick={() => toggleLike(index)}
-              alt="like icon"
-              style={{ cursor: "pointer" }}
-            />
-            <Image
-              h="1.5rem"
-              w="1.5rem"
-              src={commentIcon}
-              onClick={() => toggleComments(index)}
-              alt="comment icon"
-              style={{ cursor: "pointer" }}
-            />
-          </Flex>
-        </Card.Section>
-        <Divider />
-        {commentsVisible[index] && (
-          <DisplayComments
-            index={0}
-            commentCounts={commentCounts}
-            handleCommentCounts={handleCommentCounts}
-            comments={comments}
-            handleComments={handleComments}
-          />
-        )}
-      </Card>
+          </Card>
+        ))
+      )}
     </>
-  ));
+  );
 };

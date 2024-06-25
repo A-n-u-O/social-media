@@ -5,17 +5,23 @@ import {
   FileButton,
   Flex,
   Image,
+  Menu,
   Modal,
   Text,
   TextInput,
 } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
-
 import galleryUploadIcon from "../assets/galleryUpload.svg";
 import galleryRemoveIcon from "../assets/galleryRemove.svg";
+import emojiIcon from "../assets/emojiButtonIcon.svg";
 import addPostIcon from "../assets/addIcon.svg";
 import { useDisclosure } from "@mantine/hooks";
 import { DisplayPosts } from "./DisplayPosts";
+import Emojis from "./Emojis";
+import { getDecodedJwt, getDecodedJwtForPost } from "./helper";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const Feed = () => {
   const [likedPosts, setLikedPosts] = useState<boolean[]>([]);
@@ -40,24 +46,29 @@ const Feed = () => {
   const handleCommentsVisible = (commentsVisible: boolean[]) => {
     setCommentsVisible(commentsVisible);
   };
+
   const [file, setFile] = useState<File | null>(null);
   const [fileURL, setFileURL] = useState<null | string>(null);
+
   const [posts, setPosts] = useState<
-    Array<{ image: string; description: string }>
+    Array<{ _id: string; image: string; description: string; comments: string }>
   >([]);
   const handlePosts = (
     posts: {
+      _id: string;
       image: string;
       description: string;
+      comments: string;
     }[]
   ) => {
     setPosts(posts);
   };
 
-  const [commentCounts, setCommentCounts] = useState<number[]>([]);
-  const handleCommentCounts = (commentCounts: number[]) => {
-    setCommentCounts(commentCounts);
-  };
+  // const [commentCounts, setCommentCounts] = useState<number[]>([]);
+  // const handleCommentCounts = (commentCounts: number[]) => {
+  //   setCommentCounts(commentCounts);
+  // };
+
   const resetRef = useRef<() => void>(null);
 
   useEffect(() => {
@@ -90,11 +101,11 @@ const Feed = () => {
     if (postDescription.trim() || fileURL) {
       setPosts([
         ...posts,
-        { image: fileURL || "", description: postDescription },
+        { _id: uuidv4(), image: fileURL || "", description: postDescription, comments: '' },
       ]);
       setLikedPosts([...likedPosts, false]);
       setComments([...comments, []]);
-      setCommentCounts([...commentCounts, 0]);
+      // setCommentCounts([...commentCounts, 0]);
       setCommentsVisible([...commentsVisible, false]);
       setFile(null);
       setFileURL(null);
@@ -102,6 +113,54 @@ const Feed = () => {
       close();
       resetRef.current?.();
     }
+  };
+
+  // For adding emojis to post upload
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const handleEmojiSelect = (emoji: any) => {
+    setPostDescription((prevMessage) => prevMessage + emoji.native);
+  };
+  const handleShowEmojis = () => {
+    setShowEmojis(!showEmojis);
+  };
+
+  const user = getDecodedJwt();
+
+  const handleAddPost = async () => {
+    const formData = new FormData();
+    const userDescription = postDescription;
+    const userId = user ? user._id : "";
+    const userImage = file;
+    const userDetails = { userId, userDescription, userImage };
+
+    formData.append("user", userDetails.userId);
+
+    if (userDetails.userDescription.trim() !== "") {
+      formData.append("text", userDetails.userDescription);
+    }
+    if (userDetails.userImage) {
+      formData.append("files", userDetails.userImage);
+    }
+
+    try {
+      const response = await axios.post(
+        "https://femmetech-backend.onrender.com/api/create-post",
+        formData,
+        {
+          headers: {
+            "Content-type": "multipart/form-data",
+            Authorization: `Bearer ${getDecodedJwtForPost()}`,
+          },
+        }
+      );
+      const userCode = getDecodedJwtForPost();
+
+      if (!userCode) {
+        return <Navigate to="/dashboard" />;
+      }
+      console.log(response.data);
+      addPost();
+    } catch (error) {}
   };
 
   return (
@@ -130,15 +189,40 @@ const Feed = () => {
             Remove
             <Image h="1.5rem" w="1.5rem" m="xs" src={galleryRemoveIcon} />
           </Button>
+
           <TextInput
             size="md"
             label="Post description"
             placeholder="What's on your mind?"
+            leftSection={
+              <Menu shadow="md" width="auto">
+                <Menu.Target>
+                  <Image
+                    src={emojiIcon}
+                    w="1.5rem"
+                    h="1.5rem"
+                    mr="md"
+                    ml="md"
+                    onClick={handleShowEmojis}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item>
+                    <Emojis
+                      handleEmojiSelect={handleEmojiSelect}
+                      showEmojis={showEmojis}
+                    />
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            }
+            style={{ flexGrow: 1 }}
             value={postDescription}
             onChange={handlePostDescription}
           />
           <Button
-            onClick={addPost}
+            onClick={handleAddPost}
             m="md"
             disabled={!postDescription.trim() && !file}>
             Post
@@ -185,8 +269,8 @@ const Feed = () => {
           handleCommentsVisible={handleCommentsVisible}
           comments={comments}
           handleComments={handleComments}
-          commentCounts={commentCounts}
-          handleCommentCounts={handleCommentCounts}
+          // commentCounts={commentCounts}
+          // handleCommentCounts={handleCommentCounts}
         />
         {openedImage && (
           <Box
@@ -195,33 +279,33 @@ const Feed = () => {
             pos="fixed"
             left="0"
             onClick={() => {
-              setSelectedImage(null);
               closeImage();
             }}
-            top="0"
-            bg="#5c5a5a99"
-            style={{ zIndex: 500 }}>
-            <Flex justify="flex-end">
-              <CloseButton
-                onClick={() => {
-                  setSelectedImage(null);
-                  closeImage();
-                }}
-              />
-            </Flex>
-            <Flex justify="center">
-              {selectedImage && (
-                <Image
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  src={selectedImage}
-                  w="auto"
-                  h="auto"
-                  style={{ objectFit: "contain" }}
-                />
-              )}
-            </Flex>
+            bg="rgba(0, 0, 0, 0.75)"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+            <CloseButton
+              onClick={closeImage}
+              style={{
+                position: "fixed",
+                top: "10px",
+                right: "10px",
+                color: "white",
+                cursor: "pointer",
+              }}
+            />
+            <Image
+              src={selectedImage}
+              alt="Full-size image"
+              style={{
+                maxWidth: "90%",
+                maxHeight: "90%",
+                objectFit: "contain",
+              }}
+            />
           </Box>
         )}
       </Box>

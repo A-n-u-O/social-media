@@ -1,4 +1,13 @@
-import { Avatar, Box, Button, Flex, Image, Text, TextInput } from "@mantine/core";
+import {
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Image,
+  Menu,
+  Text,
+  TextInput,
+} from "@mantine/core";
 import React, { useState } from "react";
 import emojiIcon from "../assets/emojiButtonIcon.svg";
 import Emojis from "./Emojis";
@@ -7,7 +16,9 @@ import Chats from "./Chats";
 const ChatBox = () => {
   const [myMessage, setMyMessage] = useState<string>("");
   const [showEmojis, setShowEmojis] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Array<{ text: string; date: string }>>([]);
+  const [messages, setMessages] = useState<
+    Array<{ text: string; date: string }>
+  >([]);
 
   const getFormattedDate = () => {
     const date = new Date();
@@ -37,37 +48,53 @@ const ChatBox = () => {
 
   return (
     <Box w="70%" pos="fixed">
-      <Flex bg="grey" pos="absolute" top="-580px" w="92%" align="center" p="xs">
-        <Avatar size="lg"/>
-        <Text size="lg" fw="bold">User</Text>
+      
+      <Flex
+        bg="grey"
+        pos="absolute"
+        top="-1200%"
+        w="94%"
+        align="center"
+        p="xs"
+        style={{ zIndex: "5", boxShadow: "20%" }}>
+        <Avatar size="lg" />
+        <Text size="lg" fw="bold">
+          User
+        </Text>
       </Flex>
-      <Chats messages={messages}/>
-      <Emojis handleEmojiSelect={handleEmojiSelect} showEmojis={showEmojis} />
+      <Chats messages={messages} />
       <Flex mb="sm">
         <TextInput
-          style={{ flexGrow: 1 }}
           placeholder="Send a message"
           maw="80%"
+          style={{ zIndex: "5", boxShadow: "20%", flexGrow: 1 }}
           leftSection={
-            <Image
-              src={emojiIcon}
-              w="1.5rem"
-              h="1.5rem"
-              mr="md"
-              ml="md"
-              onClick={handleShowEmojis}
-              style={{ cursor: "pointer" }}
-            />
+            <Menu shadow="md" width="auto">
+              <Menu.Target>
+                <Image
+                  src={emojiIcon}
+                  w="1.5rem"
+                  h="1.5rem"
+                  mr="md"
+                  ml="md"
+                  onClick={handleShowEmojis}
+                  style={{ cursor: "pointer" }}
+                />
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item>
+                  <Emojis
+                    handleEmojiSelect={handleEmojiSelect}
+                    showEmojis={showEmojis}
+                  />
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           }
           value={myMessage}
           onChange={handleMyMessage}
         />
-        <Button
-          bg="#fde1e1e7"
-          w="100px"
-          ml="xs"
-          onClick={displayMyMessage}
-        >
+        <Button bg="#fde1e1e7" w="100px" ml="xs" onClick={displayMyMessage}>
           Send
         </Button>
       </Flex>

@@ -8,7 +8,8 @@ type EmojisProps = {
 };
 const Emojis = ({handleEmojiSelect, showEmojis}: EmojisProps) => {
   return (
-    <Box pos="absolute" top="-420px" left="0">
+    
+    <Box pos="relative" top="-20%" left="0">
       {showEmojis && <Picker data={data} onEmojiSelect={handleEmojiSelect} />}
     </Box>
   );
